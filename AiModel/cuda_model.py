@@ -8,9 +8,6 @@ pipeline = AutoPipelineForImage2Image.from_pretrained(
 
 pipeline.enable_model_cpu_offload()
 
-# remove following line if xFormers is not installed or you have PyTorch 2.0 or higher installed
-pipeline.enable_xformers_memory_efficient_attention()
-
 init_image = load_image("https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/diffusers/cat.png")
 
 prompt = "cat wizard, gandalf, lord of the rings, detailed, fantasy, cute, adorable, Pixar, Disney, 8k"
