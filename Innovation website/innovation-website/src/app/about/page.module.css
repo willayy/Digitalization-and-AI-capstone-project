@@ -1,7 +1,7 @@
 .aboutPage {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Horizontally center the content */
+    justify-content: top; /* Horizontally center the content */
     align-items: center; /* Vertically center the content */
     min-height: 100vh; /* Ensure the page takes at least the full viewport height */
     background-color: white;
@@ -11,7 +11,7 @@
 }
 
 .person {
-    width: calc(50% - 20px); /* Set width to half of the container width with some margin */
+    width: calc(30% - 20px); /* Set width to half of the container width with some margin */
     margin-bottom: 20px; /* Add some bottom margin for spacing */
     align-items: center;
     display: flex;
@@ -25,7 +25,7 @@
 
 .peopleSection {
     background-color: white;
-    padding: 20px;
+    padding: 50px;
     display: flex;
     align-items: center; /* Horizontally center the content */
     flex-wrap: wrap; /* Allow items to wrap to the next line */
@@ -33,4 +33,23 @@
     justify-content: center;
     margin-top: -20px;
 
+}
+
+.aboutPage h1 {
+    margin: 20px 0; /* Add margin to separate headers from other content */
+}
+
+.aboutPage h2 {
+    margin: 20px 0;
+}
+
+.aboutPage img {
+    max-width: 100%; /* Makes the image responsive */
+    height: auto; /* Maintains aspect ratio */
+    width: 200px;
+    margin-top: 20px; /* Optional margin for spacing */
+}
+
+.imagediv {
+    padding: 50px;
 }
