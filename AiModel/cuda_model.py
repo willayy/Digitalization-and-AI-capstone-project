@@ -1,6 +1,8 @@
 import torch
+print(torch.cuda.is_available())
 from diffusers import AutoPipelineForImage2Image
 from diffusers.utils import load_image, make_image_grid
+import matplotlib.pyplot as plt
 
 pipeline = AutoPipelineForImage2Image.from_pretrained(
     "kandinsky-community/kandinsky-2-2-decoder", torch_dtype=torch.float16, use_safetensors=True
@@ -14,4 +16,6 @@ prompt = "cat wizard, gandalf, lord of the rings, detailed, fantasy, cute, adora
 
 image = pipeline(prompt, image=init_image).images[0]
 
-make_image_grid([init_image, image], rows=1, cols=2)
+plt.imshow(make_image_grid([init_image, image], rows=1, cols=2))
+plt.axis('off')  # Turn off the axis
+plt.show()    

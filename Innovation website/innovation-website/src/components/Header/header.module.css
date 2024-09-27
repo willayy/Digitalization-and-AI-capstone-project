@@ -1,0 +1,28 @@
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 15px;
+    margin-top: 0px;
+    border-bottom: 1px solid black;
+}
+
+.headerTitle{
+  font-size: 3rem;
+  font-weight: bold;
+  background-image: linear-gradient(to left, yellow, blue);
+  color: transparent;
+  background-clip: text;
+  -webkit-text-stroke: 1px black;
+
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: medium;
+  text-decoration: underline;
+  color: black;
+}

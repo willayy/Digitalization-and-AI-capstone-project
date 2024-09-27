@@ -1,0 +1,36 @@
+.aboutPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+    min-height: 100vh; /* Ensure the page takes at least the full viewport height */
+    background-color: white;
+    color: black;
+
+
+}
+
+.person {
+    width: calc(50% - 20px); /* Set width to half of the container width with some margin */
+    margin-bottom: 20px; /* Add some bottom margin for spacing */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.person h3 {
+    color: black;
+    align-items: center;
+}
+
+.peopleSection {
+    background-color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center; /* Horizontally center the content */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: space-around; /* Evenly distribute items along the main axis */
+    justify-content: center;
+    margin-top: -20px;
+
+}
