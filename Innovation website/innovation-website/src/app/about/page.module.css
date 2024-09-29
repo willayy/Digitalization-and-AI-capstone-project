@@ -36,11 +36,18 @@
 }
 
 .aboutPage h1 {
-    margin: 20px 0; /* Add margin to separate headers from other content */
+    margin: 20px; /* Add margin to separate headers from other content */
+    align-items: center;
+    justify-content: center;
+
 }
 
 .aboutPage h2 {
-    margin: 20px 0;
+    display: flex;
+    margin: 20px;
+    align-items: center;
+    justify-content: center;
+
 }
 
 .aboutPage img {
@@ -52,4 +59,14 @@
 
 .imagediv {
     padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aboutPage p {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
 }
