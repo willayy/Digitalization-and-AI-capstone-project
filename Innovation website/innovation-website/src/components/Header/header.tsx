@@ -13,7 +13,7 @@ export default function Header() {
             <Link href="/">Demo</Link>
           </li>
           <li>
-            <Link href="/discussion">Discussion</Link>
+            <Link href="/references">References</Link>
           </li>
           <li>
             <Link href="/about">About us</Link>

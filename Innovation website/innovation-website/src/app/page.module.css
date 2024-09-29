@@ -194,3 +194,14 @@ a.secondary {
     align-items: center;
 
 }
+
+.textDiv {
+    margin-left: 600px;
+    margin-right: 600px;
+    margin-bottom: 150px;
+}
+
+.text {
+    margin-left: 600px;
+    margin-right: 600px;
+}

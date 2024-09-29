@@ -3,7 +3,7 @@ import type { Metadata } from 'next'; // Import Metadata type
 import Header from '../components/Header/header'; // Import the Header component
 
 export const metadata: Metadata = {
-  title: 'IkeAI.se', // Title of your website
+  title: 'IkeAI.se',
   description: 'Information about events, statistics, and more.', // Description for SEO
 };
 

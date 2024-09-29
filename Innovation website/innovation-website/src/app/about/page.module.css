@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: top; /* Horizontally center the content */
     align-items: center; /* Vertically center the content */
-    min-height: 100vh; /* Ensure the page takes at least the full viewport height */
+    min-height: 91vh; /* Ensure the page takes at least the full viewport height */
     background-color: white;
     color: black;
 
@@ -36,7 +36,7 @@
 }
 
 .aboutPage h1 {
-    margin: 20px; /* Add margin to separate headers from other content */
+    margin: 20px;
     align-items: center;
     justify-content: center;
 
@@ -58,7 +58,7 @@
 }
 
 .imagediv {
-    padding: 50px;
+    margin-top: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
