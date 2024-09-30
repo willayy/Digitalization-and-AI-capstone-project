@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Fredoka';
+  src: url('/Fredoka-VariableFont.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 .aboutPage {
     display: flex;
     flex-direction: column;
@@ -5,9 +12,8 @@
     align-items: center; /* Vertically center the content */
     min-height: 91vh; /* Ensure the page takes at least the full viewport height */
     background-color: white;
+    font-family: "Fredoka", sans-serif;
     color: black;
-
-
 }
 
 .person {
@@ -16,6 +22,7 @@
     align-items: center;
     display: flex;
     flex-direction: column;
+
 }
 
 .person h3 {

@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Fredoka';
+  src: url('/Fredoka-VariableFont.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 .headerContainer {
   display: flex;
   align-items: center;
@@ -10,6 +17,7 @@
   top: 0; /* Position it at the top of the viewport */
   width: 100%; /* Ensure it stretches across the full width */
   z-index: 1000; /* Ensure it appears above other content */
+  font-family: "Fredoka", sans-serif;
 }
 
 .headerTitle {

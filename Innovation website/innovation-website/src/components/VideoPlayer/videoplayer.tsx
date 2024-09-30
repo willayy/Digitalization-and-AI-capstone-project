@@ -10,7 +10,13 @@ interface VideoPlayerProps {
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoSrc, h2Ref }) => {
   const scrollToH2 = () => {
     if (h2Ref.current) {
-      h2Ref.current.scrollIntoView({ behavior: 'smooth' });
+      const headerHeight = 90; // Change this to the height of your header
+      const h2Position = h2Ref.current.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = h2Position - headerHeight; // Subtract the header height for offset
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth' // Smooth scroll animation
+      });
     }
   };
 
