@@ -49,29 +49,16 @@ def start_image_generation():
     loading_label = tk.Label(loading_window, text="Generating image...", font=("Helvetica", 14))
     loading_label.pack(expand=True)
     
-    # Parameters for the generate_image function
-    prompt = entry_var.get()
-    image = Image.open(file_path)
-    show_image = True
-    n = len(os.listdir("AiModel/Trials")) + 1
-    image_name = f"output-{n}.jpg"
-    save_image_path = f"AiModel/Trials/{image_name}"
-    strength = 0.8
-    num_inf = 100
-    guidance = 15
-
-    image = generate_image(
-        prompt,
-        image,
-        show_image,
-        save_image_path,
-        strength,
-        num_inf,
-        guidance
-    )
-
-    # Insert the image into the database
-    insert_image(image, f"output-{n}.jpg", loading_window)
+    # Function to simulate image generation process
+    def simulate_image_generation():
+        #time.sleep(3)  # Simulate a delay for the image generation process
+        #loading_window.destroy()
+        #messagebox.showinfo("Generate Image", "Image generation process completed.")
+        #send_to_script(entry_var.get(), file_path)
+        generate_image(entry_var.get(), os.path.basename(file_path), "true", "C:/Users/maxdr/testtttt/knas.png")
+    
+    # Run the image generation process in a separate thread to avoid blocking the main thread
+    threading.Thread(target=simulate_image_generation).start()
 
 # Create the main window
 root = tk.Tk()
