@@ -10,16 +10,6 @@ def download_image(url):
 
 img_url = "https://huggingface.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
 
-image = download_image(img_url).resize((512, 512))
 
-pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
-    "timbrooks/instruct-pix2pix", #torch_dtype=torch.float16
-)
-
-pipe = pipe.to("cpu")
-
-prompt = "make the mountains snowy"
-
-image = pipe(prompt=prompt, image=image).images[0]
 
 image.show()
