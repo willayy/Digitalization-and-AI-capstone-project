@@ -34,7 +34,7 @@ export default function About() {
 
         <div className={styles.person}>
           <h3>Max Levin</h3>
-          <p>Contact info: ...@gmail.com</p>
+          <p>Contact info: maxle@student.chalmers.se</p>
         </div>
 
         <div className={styles.person}>

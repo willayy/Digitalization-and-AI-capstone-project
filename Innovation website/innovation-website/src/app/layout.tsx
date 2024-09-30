@@ -3,7 +3,7 @@ import type { Metadata } from 'next'; // Import Metadata type
 import Header from '../components/Header/header'; // Import the Header component
 
 export const metadata: Metadata = {
-  title: 'IkeAI.se',
+  title: 'SKAPA',
   description: 'Information about events, statistics, and more.', // Description for SEO
 };
 
@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en"> {/* Set the language of the document */}
       <body>
         <Header /> {/* Render the Header */}
-        <main>{children}</main> {/* Render the main content of the page */}
+        <main className="content">{children}</main> {/* Render the main content of the page */}
       </body>
     </html>
   );

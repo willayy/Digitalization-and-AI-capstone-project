@@ -186,7 +186,6 @@ a.secondary {
 }
 
 .designTitle {
-    margin-top: 100px;
     margin-bottom: 50px;
     font-size: 40px;
     display: flex;
@@ -204,4 +203,17 @@ a.secondary {
 .text {
     margin-left: 600px;
     margin-right: 600px;
+}
+
+.sectionOne {
+  height: 100vh;
+}
+
+.sectionTwo {
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
 }
