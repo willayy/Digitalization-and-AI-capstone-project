@@ -85,32 +85,34 @@ def generate_image(prompt: str, image: Img, show_image: str, save_image_path: st
 
 args = sys.argv
 
-# Sanitize arguments
-if args[1] == "help":
-    print("Usage: python3 genimage.py <prompt> <image_path> <show_image> (optionally)-> <save_image_path>")
-    sys.exit(0)
+if len(args) != 1:
 
-if args[3] != "true" and args[2] != "false":
-    print("Invalid argument for show_image.")
-    sys.exit(1)
+    # Sanitize arguments
+    if args[1] == "help":
+        print("Usage: python3 genimage.py <prompt> <image_path> <show_image> (optionally)-> <save_image_path>")
+        sys.exit(0)
 
-prompt = args[1]
+    if args[3] != "true" and args[2] != "false":
+        print("Invalid argument for show_image.")
+        sys.exit(1)
 
-image_path = args[2]
+    prompt = args[1]
 
-show_image = args[3]
+    image_path = args[2]
 
-if len(args) == 5:
-    save_image_path = args[4]
-else:
-    save_image_path = ""
+    show_image = args[3]
 
-try:
-    # Make PIL image from file
-    image = load_image(image_path)
-except Exception as e:
-    print(f"Error loading image, message: {e}")
-    sys.exit(1)
+    if len(args) == 5:
+        save_image_path = args[4]
+    else:
+        save_image_path = ""
+
+    try:
+        # Make PIL image from file
+        image = load_image(image_path)
+    except Exception as e:
+        print(f"Error loading image, message: {e}")
+        sys.exit(1)
 
 generate_image(prompt, image, show_image, save_image_path)
 
