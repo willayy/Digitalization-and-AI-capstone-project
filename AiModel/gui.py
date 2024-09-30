@@ -18,7 +18,7 @@ def open_file_explorer():
     else:
         messagebox.showwarning("File Selection", "No file selected or invalid file type.")
 
-def generate_image():
+def generate_images():
     # Creating the loading window
     loading_window = tk.Toplevel(root)
     loading_window.title("Loading")
@@ -38,7 +38,7 @@ def generate_image():
         #loading_window.destroy()
         #messagebox.showinfo("Generate Image", "Image generation process completed.")
         #send_to_script(entry_var.get(), file_path)
-        generate_image(entry_var.get(), file_path)
+        generate_image(entry_var.get(), os.path.basename(file_path), "true", "C:/Users/maxdr/testtttt/knas.png")
     
     # Run the image generation process in a separate thread to avoid blocking the main thread
     threading.Thread(target=simulate_image_generation).start()
@@ -122,7 +122,7 @@ action_frame = tk.Frame(main_frame)
 action_frame.grid(row=3, column=0, columnspan=2, pady=(10, 20)) 
 
 # Create and place the "Generate image" button inside the action frame
-generate_button = tk.Button(action_frame, text="Generate image", command=generate_image, font=("Helvetica", 14), bg="lightblue")
+generate_button = tk.Button(action_frame, text="Generate image", command=generate_images, font=("Helvetica", 14), bg="lightblue")
 generate_button.pack()
 
 # Run the application
