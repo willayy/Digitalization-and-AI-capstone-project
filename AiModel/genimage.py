@@ -1,13 +1,11 @@
- 
 import torch
 import sys
-import io
-import requests
+import os
 from PIL.Image import Image as Img
 from diffusers.utils import load_image
-from requests import Response
 from diffusers import AutoPipelineForImage2Image
 from diffusers import DiffusionPipeline
+from diffusers import StableDiffusionInstructPix2PixPipeline
 from PIL import Image
 
 #----------------------------------------------------------- CUDA Model -----------------------------------------------------------#
@@ -31,29 +29,23 @@ def run_cuda_model(prompt: str, image: Img) -> Image:
 
 #----------------------------------------------------------- Fake Model -----------------------------------------------------------#
 
-# This model cant take images an input only a text prompt,
-# this is just a prototype to show how off how Python can be used to interact with API's
-# connected to a powerful model. This however would require more capital to run.
+def run_cpu_model(prompt: str, image: Img) -> Image:
 
-# The api endpoint address
-API_URL: str = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev"
+    num_threads = os.cpu_count()
 
-# The API key to access the model
-API_KEY: str = "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"
+    torch.set_num_threads(num_threads)  # Adjust based on your CPU
 
-# Header for the JSON payload.
-HEADER: dict = { "Authorization" : f"Bearer {API_KEY}" }
+    pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
+        "timbrooks/instruct-pix2pix", #torch_dtype=torch.float16
+    )
 
-def run_fake_model(prompt: str) -> Image:
+    pipe = pipe.to("cpu")
 
-    response: Response = requests.post(API_URL, headers = HEADER, json={"inputs": prompt})
+    pipe.enable_attention_slicing()
 
-    content: bytes = response.content
+    ret_image = pipe(prompt=prompt, image=image).images[0]
 
-    # Turn query result into image
-    image = Image.open(io.BytesIO(content))
-
-    return image
+    return ret_image
 
 #----------------------------------------------------------- Main Function -----------------------------------------------------------#
 
@@ -72,10 +64,10 @@ def generate_image(prompt: str, image: Img, show_image: str, save_image_path: st
         
     else:
 
-        print("CUDA is unavailable, running fake model.")
+        print("CUDA is unavailable, running CPU model.")
 
         # Run the fake model
-        return_image = run_fake_model(prompt)
+        return_image = run_cpu_model(prompt, image)
 
     print("model has finished running.")
 
@@ -115,13 +107,12 @@ if len(args) == 5:
 else:
     save_image_path = ""
 
-if image_path != "":
-    try:
-        # Make PIL image from file
-        image = load_image(image_path)
-    except Exception as e:
-        print(f"Error loading image, message: {e}")
-        sys.exit(1)
+try:
+    # Make PIL image from file
+    image = load_image(image_path)
+except Exception as e:
+    print(f"Error loading image, message: {e}")
+    sys.exit(1)
 
 generate_image(prompt, image, show_image, save_image_path)
 
