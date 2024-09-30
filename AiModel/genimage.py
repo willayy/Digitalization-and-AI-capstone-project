@@ -41,8 +41,6 @@ def run_cpu_model(prompt: str, image: Img) -> Image:
 
     pipe = pipe.to("cpu")
 
-    pipe.enable_attention_slicing()
-
     ret_image = pipe(prompt=prompt, image=image).images[0]
 
     return ret_image
