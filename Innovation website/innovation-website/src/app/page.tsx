@@ -43,8 +43,9 @@ export default function Home() {
           are limited by factors such time, money and other resources. While the AI model might not be able to compete
           with the most common models on the market right now, that is something that IKEA very easily can fix with
           their resources. Our product is similar to a computer in a way. By replacing say a graphical component it is
-          possible to keep using the same computer. The main cost of this product is the license for the AI itself
-          which is why this product is referred to as a proof of concept.
+          possible to keep using the same computer. The same is true for our product by replacing the AI model.
+          The main cost of this product is the license for the AI itself which is why this product is referred to as a
+          proof of concept.
           </p>
           <br />
 
