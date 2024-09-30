@@ -24,6 +24,8 @@ def run_cuda_model(prompt: str, image: Img) -> Img:
 
     model_path = "./local_models/stable-diffusion-v1-5"
 
+    model_path = "./local_models/stable-diffusion-v1-5"
+
     # Load a pretrained model
     pipe: DiffusionPipeline = AutoPipelineForImage2Image.from_pretrained(
         model_path if os.path.exists(model_path) else "runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16, use_safetensors=True
@@ -43,6 +45,8 @@ def run_cuda_model(prompt: str, image: Img) -> Img:
 #----------------------------------------------------------- Fake Model -----------------------------------------------------------#
 
 def run_cpu_model(prompt: str, image: Img) -> Img:
+
+    model_path = "./local_models/instruct-pix2pix"
 
     model_path = "./local_models/instruct-pix2pix"
 
