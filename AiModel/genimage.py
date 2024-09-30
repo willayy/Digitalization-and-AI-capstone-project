@@ -114,6 +114,6 @@ if len(args) != 1:
         print(f"Error loading image, message: {e}")
         sys.exit(1)
 
-generate_image(prompt, image, show_image, save_image_path)
+    generate_image(prompt, image, show_image, save_image_path)
 
-sys.exit(0)
+    sys.exit(0)
