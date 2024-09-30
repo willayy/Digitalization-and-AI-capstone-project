@@ -1,6 +1,6 @@
-accelerate==0.34.2
 certifi==2024.8.30
 charset-normalizer==3.3.2
+colorama==0.4.6
 diffusers==0.30.3
 filelock==3.16.1
 fsspec==2024.9.0
@@ -14,13 +14,12 @@ networkx==3.3
 numpy==2.1.1
 packaging==24.1
 pillow==10.4.0
-psutil==6.0.0
 PyYAML==6.0.2
 regex==2024.9.11
 requests==2.32.3
 safetensors==0.4.5
 setuptools==75.1.0
-sympy==1.13.
+sympy==1.13.3
 tokenizers==0.20.0
 torch==2.4.1
 torchaudio==2.4.1
