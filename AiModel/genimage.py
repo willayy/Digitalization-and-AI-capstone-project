@@ -57,6 +57,42 @@ def run_fake_model(prompt: str) -> Image:
 
 #----------------------------------------------------------- Main Function -----------------------------------------------------------#
 
+def generate_image(prompt: str, image: Img, show_image: str, save_image_path: str) -> None:
+
+    # The output image
+    return_image: Img = None
+
+    # Check if cuda is available
+    if torch.cuda.is_available():
+
+        print("CUDA is available, running CUDA model.")
+
+        # Run the CUDA model
+        return_image = run_cuda_model(prompt, image)
+        
+    else:
+
+        print("CUDA is unavailable, running fake model.")
+
+        # Run the fake model
+        return_image = run_fake_model(prompt)
+
+    print("model has finished running.")
+
+    # Display the image
+    if show_image == "true":
+        return_image.show()
+        print("image shown.")
+
+    # Save the image
+    if save_image_path != "":
+        return_image.save(save_image_path)
+        print("image saved.")
+
+    print("terminating program.")
+
+#----------------------------------------------------------- Script style --------------------------------------------------------------#
+
 args = sys.argv
 
 # Sanitize arguments
@@ -87,36 +123,6 @@ if image_path != "":
         print(f"Error loading image, message: {e}")
         sys.exit(1)
 
-# The output image
-return_image: Img = None
-
-# Check if cuda is available
-if torch.cuda.is_available():
-
-    print("CUDA is available, running CUDA model.")
-
-    # Run the CUDA model
-    return_image = run_cuda_model(prompt, image)
-    
-else:
-
-    print("CUDA is unavailable, running fake model.")
-
-    # Run the fake model
-    return_image = run_fake_model(prompt)
-
-print("model has finished running.")
-
-# Display the image
-if show_image == "true":
-    return_image.show()
-    print("image shown.")
-
-# Save the image
-if save_image_path != "":
-    return_image.save(save_image_path + "output.png")
-    print("image saved.")
-
-print("terminating program.")
+generate_image(prompt, image, show_image, save_image_path)
 
 sys.exit(0)
