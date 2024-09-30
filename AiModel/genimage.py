@@ -3,50 +3,31 @@ import torch
 import sys
 import io
 import requests
-from PIL.Image import Image
-from diffusers.utils import load_image, make_image_grid
+from PIL.Image import Image as Img
+from diffusers.utils import load_image
 from requests import Response
 from diffusers import AutoPipelineForImage2Image
 from diffusers import DiffusionPipeline
+from PIL import Image
 
 #----------------------------------------------------------- CUDA Model -----------------------------------------------------------#
 
-def run_cuda_model(prompt: str, image: Image) -> Image:
+def run_cuda_model(prompt: str, image: Img) -> Image:
 
     # Load a pretrained model
-    pipeline = AutoPipelineForImage2Image.from_pretrained(
+    pipeline: DiffusionPipeline = AutoPipelineForImage2Image.from_pretrained(
         "runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16, use_safetensors=True
     )
 
+    print(type(pipeline))
+
     pipeline.enable_model_cpu_offload()
 
-    init_image = load_image("https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/diffusers/cat.png")
+    init_image = image
 
-    prompt = "cat wizard, gandalf, lord of the rings, detailed, fantasy, cute, adorable, Pixar, Disney, 8k"
+    ret_image = pipeline(prompt, image=init_image).images[0]
 
-    image = pipeline(prompt, image=init_image).images[0]
-
-    return image
-
-#----------------------------------------------------------- MPS Model --------------------------------------------------------------#
-
-def run_mps_model(prompt):
-
-    # Set the MPS high watermark to 0.0 to avoid out-of-memory errors
-    PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0
-
-    pipe = DiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5")
-
-    pipe = pipe.to("mps")
-
-    # Recommended if your computer has < 64 GB of RAM
-    pipe.enable_attention_slicing()
-
-    prompt = "a photo of an astronaut riding a horse on mars"
-
-    image = pipe(prompt).images[0]
-
-    return image
+    return ret_image
 
 #----------------------------------------------------------- Fake Model -----------------------------------------------------------#
 
@@ -76,29 +57,66 @@ def run_fake_model(prompt: str) -> Image:
 
 #----------------------------------------------------------- Main Function -----------------------------------------------------------#
 
-prompt = "cat wizard, gandalf, lord of the rings, detailed, fantasy, cute, adorable, Pixar, Disney, 8k"
-image = load_image("https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/diffusers/cat.png")
+args = sys.argv
 
-return_image: Image = None
+# Sanitize arguments
+if args[1] == "help":
+    print("Usage: python3 genimage.py <prompt> <image_path> <show_image> (optionally)-> <save_image_path>")
+    sys.exit(0)
+
+if args[3] != "true" and args[2] != "false":
+    print("Invalid argument for show_image.")
+    sys.exit(1)
+
+prompt = args[1]
+
+image_path = args[2]
+
+show_image = args[3]
+
+if len(args) == 5:
+    save_image_path = args[4]
+else:
+    save_image_path = ""
+
+if image_path != "":
+    try:
+        # Make PIL image from file
+        image = load_image(image_path)
+    except Exception as e:
+        print(f"Error loading image, message: {e}")
+        sys.exit(1)
+
+# The output image
+return_image: Img = None
 
 # Check if cuda is available
 if torch.cuda.is_available():
 
     print("CUDA is available, running CUDA model.")
 
+    # Run the CUDA model
     return_image = run_cuda_model(prompt, image)
-
-elif sys.platform == "darwin":
-
-    print("MPS is available, running MPS model.")
-
-    return_image = run_mps_model(prompt)
-
+    
 else:
-    
-    print("CUDA and MPS are unavailable, running fake model.")
-    
+
+    print("CUDA is unavailable, running fake model.")
+
+    # Run the fake model
     return_image = run_fake_model(prompt)
 
+print("model has finished running.")
 
-image.show()
+# Display the image
+if show_image == "true":
+    return_image.show()
+    print("image shown.")
+
+# Save the image
+if save_image_path != "":
+    return_image.save(save_image_path + "output.png")
+    print("image saved.")
+
+print("terminating program.")
+
+sys.exit(0)
