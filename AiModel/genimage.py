@@ -38,7 +38,7 @@ def run_cpu_model(prompt: str, image: Img) -> Image:
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
         "timbrooks/instruct-pix2pix", #torch_dtype=torch.float16
     )
-
+    
     pipe = pipe.to("cpu")
 
     ret_image = pipe(prompt=prompt, image=image).images[0]
