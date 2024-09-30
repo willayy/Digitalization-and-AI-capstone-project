@@ -5,6 +5,8 @@ import threading
 import time
 import subprocess
 
+from ..AiModel.genimage import generate_image
+
 def open_file_explorer():
     global file_path
     file_path = filedialog.askopenfilename(
@@ -15,20 +17,6 @@ def open_file_explorer():
         filename_label.config(text=filename)
     else:
         messagebox.showwarning("File Selection", "No file selected or invalid file type.")
-
-def send_to_script(prompt, image_path):
-    try:
-        result = subprocess.run(
-            ['python', 'path/to/script.py', prompt, image_path],
-            capture_output=True,
-            text=True
-        )
-        if result.returncode == 0:
-            messagebox.showinfo("Script Output", result.stdout)
-        else:
-            messagebox.showerror("Script Error", result.stderr)
-    except Exception as e:
-        messagebox.showerror("Error", str(e))
 
 def generate_image():
     # Creating the loading window
@@ -46,10 +34,11 @@ def generate_image():
     
     # Function to simulate image generation process
     def simulate_image_generation():
-        time.sleep(3)  # Simulate a delay for the image generation process
-        loading_window.destroy()
-        messagebox.showinfo("Generate Image", "Image generation process completed.")
-        send_to_script(entry_var.get(), file_path)
+        #time.sleep(3)  # Simulate a delay for the image generation process
+        #loading_window.destroy()
+        #messagebox.showinfo("Generate Image", "Image generation process completed.")
+        #send_to_script(entry_var.get(), file_path)
+        generate_image(entry_var.get(), file_path)
     
     # Run the image generation process in a separate thread to avoid blocking the main thread
     threading.Thread(target=simulate_image_generation).start()
