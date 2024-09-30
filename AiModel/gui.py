@@ -39,12 +39,7 @@ def generate_images():
         #loading_window.destroy()
         #messagebox.showinfo("Generate Image", "Image generation process completed.")
         #send_to_script(entry_var.get(), file_path)
-        prompt = entry_var.get()
-        image = Image.open(file_path)
-        show_image = "true"
-        save_image_path = "C:/Users/maxdr/testtttt/knas.png"
-        
-        generate_image(prompt, image, show_image, save_image_path)
+        generate_image(entry_var.get(), os.path.basename(file_path), "true", "C:/Users/maxdr/testtttt/knas.png")
     
     # Run the image generation process in a separate thread to avoid blocking the main thread
     threading.Thread(target=simulate_image_generation).start()
