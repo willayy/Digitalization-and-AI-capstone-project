@@ -16,12 +16,14 @@ numpy==2.1.1
 packaging==24.1
 pillow==10.4.0
 psutil==6.0.0
+psycopg2==2.9.9
 PyYAML==6.0.2
 regex==2024.9.11
 requests==2.32.3
 safetensors==0.4.5
 setuptools==75.1.0
 sympy==1.13.3
+tk==0.1.0
 tokenizers==0.20.0
 torch==2.4.1
 torchaudio==2.4.1
