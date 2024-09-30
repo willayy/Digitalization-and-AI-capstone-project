@@ -5,7 +5,7 @@ import threading
 import time
 import subprocess
 
-from ..AiModel.genimage import generate_image
+from genimage import generate_image
 
 def open_file_explorer():
     global file_path
