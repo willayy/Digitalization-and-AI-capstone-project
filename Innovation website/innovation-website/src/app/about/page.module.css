@@ -10,7 +10,7 @@
     flex-direction: column;
     justify-content: top; /* Horizontally center the content */
     align-items: center; /* Vertically center the content */
-    min-height: 91vh; /* Ensure the page takes at least the full viewport height */
+    min-height: 100vh; /* Ensure the page takes at least the full viewport height */
     background-color: white;
     font-family: "Fredoka", sans-serif;
     color: black;
