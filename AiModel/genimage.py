@@ -42,7 +42,7 @@ def run_cuda_model(prompt: str, image: Img) -> Img:
 
 #----------------------------------------------------------- Fake Model -----------------------------------------------------------#
 
-def run_cpu_model(prompt: str, image: Img) -> Image:
+def run_cpu_model(prompt: str, image: Img) -> Img:
 
     model_path = "./local_models/instruct-pix2pix"
 
