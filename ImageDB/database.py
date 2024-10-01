@@ -1,9 +1,6 @@
 import psycopg2
 import tkinter as tk
 from tkinter import filedialog
-from PIL import Image, ImageTk
-import io
-import os
 
 def create_database():
     connection = None
@@ -51,19 +48,12 @@ def create_table():
         table_exists = cursor.fetchone()[0]
         
         if not table_exists:
-            # Construct the path to 'create_table.sql'
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            sql_file_path = os.path.join(current_dir, 'create_table.sql')
-
-            # Check if 'create_table.sql' exists
-            if os.path.exists(sql_file_path):
-                with open(sql_file_path, 'r') as file:
-                    sql_commands = file.read()
-                cursor.execute(sql_commands)
-                connection.commit()
-                print("Executed table creation SQL file.")
-            else:
-                print(f"Error: SQL file not found at {sql_file_path}")
+            # If the table does not exist, create it
+            with open('create_table.sql', 'r') as file:
+                sql_commands = file.read()
+            cursor.execute(sql_commands)
+            connection.commit()
+            print("Executed table creation SQL file.")
         else:
             print("Table 'images' already exists.")
 
@@ -74,32 +64,28 @@ def create_table():
         if connection:
             connection.close()
 
-def insert_generated_image(image_obj, image_name):
+def insert_image(image_path):
     connection = None
     try:
         connection = psycopg2.connect(
             host='localhost',
             database='imagedb',
-            user='postgres',
-            password='postgres'
+            user='postgres', 
+            password='postgres' 
         )
         cursor = connection.cursor()
-
-        # Convert the PIL image object to bytes
-        image_bytes = io.BytesIO()
-        image_obj.save(image_bytes, format='PNG')  # Save as PNG
-        image_bytes = image_bytes.getvalue()  # Get the byte data
-
-        cursor.execute(
-            "INSERT INTO images (image_name, image_data) VALUES (%s, %s)",
-            (image_name, psycopg2.Binary(image_bytes))
-        )
-        connection.commit()
-        print(f"Inserted generated image '{image_name}' into the database.")
+        with open(image_path, 'rb') as file:
+            image_data = file.read()
+            image_name = image_path.split('/')[-1]  # Get the file name
+            cursor.execute(
+                "INSERT INTO images (image_name, image_data) VALUES (%s, %s)",
+                (image_name, psycopg2.Binary(image_data))
+            )
+            connection.commit()
+            print(f"Inserted image '{image_name}' into the database.")
         cursor.close()
-
     except (Exception, psycopg2.DatabaseError) as error:
-        print(f"Error while inserting generated image: {error}")
+        print(f"Error while inserting image: {error}")
     finally:
         if connection:
             connection.close()
@@ -116,39 +102,7 @@ def choose_file_and_insert():
     if file_path:  # If a file was selected
         insert_image(file_path)
 
-def display_image_from_database(image_name):
-    connection = None
-    try:
-        connection = psycopg2.connect(
-            host='localhost',
-            database='imagedb',
-            user='postgres',
-            password='postgres'
-        )
-        cursor = connection.cursor()
-
-        # Retrieve image data by name
-        cursor.execute("SELECT image_data FROM images WHERE image_name = %s", (image_name,))
-        image_data = cursor.fetchone()
-
-        if image_data:
-            image_bytes = image_data[0]
-            image = Image.open(io.BytesIO(image_bytes))
-            image.show()  # This will open the image in the default image viewer
-        else:
-            print(f"No image found with the name '{image_name}'.")
-
-        cursor.close()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(f"Error while retrieving image: {error}")
-    finally:
-        if connection:
-            connection.close()
-
 if __name__ == "__main__":
     create_database()  # Step 1: Create the database
     create_table()     # Step 2: Create the table in the 'ImageDB' database
     choose_file_and_insert()  # Step 3: Choose a PNG file and insert it into the database
-    
-    # Example of how to retrieve and display an image from the database:
-    # display_image_from_database('your_image_name.png')
