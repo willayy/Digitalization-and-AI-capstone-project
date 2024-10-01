@@ -6,11 +6,10 @@ from diffusers.utils import load_image
 from diffusers import AutoPipelineForImage2Image
 from diffusers import DiffusionPipeline
 from diffusers import StableDiffusionInstructPix2PixPipeline
-from PIL import Image
 
 #----------------------------------------------------------- CUDA Model -----------------------------------------------------------#
 
-def run_cuda_model(prompt: str, image: Img) -> Image:
+def run_cuda_model(prompt: str, image: Img) -> Img:
 
     model_path = "./local_models/stable-diffusion-v1-5"
 
@@ -32,7 +31,7 @@ def run_cuda_model(prompt: str, image: Img) -> Image:
 
 #----------------------------------------------------------- Fake Model -----------------------------------------------------------#
 
-def run_cpu_model(prompt: str, image: Img) -> Image:
+def run_cpu_model(prompt: str, image: Img) -> Img:
 
     model_path = "./local_models/instruct-pix2pix"
 
@@ -58,7 +57,7 @@ def run_cpu_model(prompt: str, image: Img) -> Image:
 
 #----------------------------------------------------------- Main Function -----------------------------------------------------------#
 
-def generate_image(prompt: str, image: Img, show_image: str, save_image_path: str) -> None:
+def generate_image(prompt: str, image: Img, show_image: str, save_image_path: str) -> Img:
 
     # The output image
     return_image: Img = None
@@ -91,6 +90,8 @@ def generate_image(prompt: str, image: Img, show_image: str, save_image_path: st
         print("image saved.")
 
     print("terminating program.")
+
+    return return_image
 
 #----------------------------------------------------------- Script style --------------------------------------------------------------#
 
