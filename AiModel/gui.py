@@ -4,6 +4,9 @@ import os
 import threading
 from PIL import Image
 from genimage import generate_image
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from ImageDB.database import insert_generated_image
 
 def open_file_explorer():
     global file_path
@@ -29,7 +32,36 @@ def generate_image_window():
     # Adding a label to the loading window 
     loading_label = tk.Label(loading_window, text="Generating image...", font=("Helvetica", 14))
     loading_label.pack(expand=True)
-    
+
+    def insert_image(image_obj, image_name):
+        
+        # Ask the user if they want to save the image in the database
+        save_to_db = messagebox.askyesno("Insert Image", "Do you want to save the generated image to the database?")
+        
+        if save_to_db:
+            # Insert the image into the database
+            insert_generated_image(image_obj, image_name)
+            # Show a success message
+            messagebox.showinfo("Image Generated", "The image has been successfully saved to the database.")
+        else:
+            messagebox.showinfo("Image Not Saved", "The image was not saved to the database.")
+
+        # Close the loading window
+        loading_window.destroy()
+
+    # Function to simulate loading your own image for testing only!
+    # def start_image_loading():
+    #     if file_path:
+    #         image_name = os.path.basename(file_path)  # Use the selected file name as the image name
+    #         with open(file_path, 'rb') as img_file:
+    #             image_data = img_file.read()
+    #             image_obj = Image.open(file_path)  # Open the image using PIL
+    #             image_obj.show()  # Display the image for user to confirm
+    #         insert_image(image_obj, image_name)  # Insert into the database
+    #     else:
+    #         messagebox.showwarning("File Selection", "No file selected or invalid file type.")
+    #         loading_window.destroy()
+        
     # Function to simulate image generation process
     def start_image_generation():
         prompt = entry_var.get()
@@ -37,7 +69,8 @@ def generate_image_window():
         show_image = "true"
         save_image_path = "C:/Users/maxdr/testtttt/knas.png"
         
-        generate_image(prompt, image, show_image, save_image_path)
+        return_image = generate_image(prompt, image, show_image, save_image_path)
+        insert_image(return_image, "generated_image_from_gui.png")
     
     # Run the image generation process in a separate thread to avoid blocking the main thread
     threading.Thread(target=start_image_generation).start()
