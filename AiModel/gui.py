@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import os
+import threading
 from PIL import Image
 from genimage import generate_image
 from PIL.Image import Image as Img
@@ -17,7 +18,7 @@ def open_file_explorer():
     else:
         messagebox.showwarning("File Selection", "No file selected or invalid file type.")
 
-def generate_images():
+def generate_image_window():
     # Creating the loading window
     loading_window = tk.Toplevel(root)
     loading_window.title("Loading")
@@ -32,15 +33,16 @@ def generate_images():
     loading_label.pack(expand=True)
     
     # Function to simulate image generation process
-    def simulate_image_generation():
-        #time.sleep(3)  # Simulate a delay for the image generation process
-        #loading_window.destroy()
-        #messagebox.showinfo("Generate Image", "Image generation process completed.")
-        #send_to_script(entry_var.get(), file_path)
-        generate_image(entry_var.get(), os.path.basename(file_path), "true", "C:/Users/maxdr/testtttt/knas.png")
+    def start_image_generation():
+        prompt = entry_var.get()
+        image = Image.open(file_path)
+        show_image = "true"
+        save_image_path = "C:/Users/maxdr/testtttt/knas.png"
+        
+        generate_image(prompt, image, show_image, save_image_path)
     
     # Run the image generation process in a separate thread to avoid blocking the main thread
-    threading.Thread(target=simulate_image_generation).start()
+    threading.Thread(target=start_image_generation).start()
 
 # Create the main window
 root = tk.Tk()
@@ -100,7 +102,7 @@ action_frame = tk.Frame(main_frame)
 action_frame.grid(row=4, column=0, columnspan=2, pady=(10, 20)) 
 
 # Create and place the "Generate image" button inside the action frame
-generate_button = tk.Button(action_frame, text="Generate image", command=generate_images, font=("Helvetica", 14), bg="lightblue")
+generate_button = tk.Button(action_frame, text="Generate image", command=generate_image_window, font=("Helvetica", 14), bg="lightblue")
 generate_button.pack()
 
 # Run the application
