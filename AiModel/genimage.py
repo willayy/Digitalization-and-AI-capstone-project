@@ -12,18 +12,21 @@ from PIL import Image
 
 def run_cuda_model(prompt: str, image: Img) -> Image:
 
+    model_path = "./local_models/stable-diffusion-v1-5"
+
     # Load a pretrained model
-    pipeline: DiffusionPipeline = AutoPipelineForImage2Image.from_pretrained(
-        "runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16, use_safetensors=True
+    pipe: DiffusionPipeline = AutoPipelineForImage2Image.from_pretrained(
+        model_path if os.path.exists(model_path) else "runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16, use_safetensors=True
     )
 
-    print(type(pipeline))
+    pipe.enable_model_cpu_offload()
 
-    pipeline.enable_model_cpu_offload()
+    pipe.tokenizer.clean_up_tokenization_spaces = False
 
-    init_image = image
+    if not os.path.exists(model_path):
+        pipe.save_pretrained(model_path)
 
-    ret_image = pipeline(prompt, image=init_image).images[0]
+    ret_image = pipe(prompt, image=image).images[0]
 
     return ret_image
 
@@ -31,15 +34,23 @@ def run_cuda_model(prompt: str, image: Img) -> Image:
 
 def run_cpu_model(prompt: str, image: Img) -> Image:
 
+    model_path = "./local_models/instruct-pix2pix"
+
     num_threads = os.cpu_count()
 
     torch.set_num_threads(num_threads)  # Adjust based on your CPU
 
-    pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
-        "timbrooks/instruct-pix2pix", #torch_dtype=torch.float16
+    pipe: StableDiffusionInstructPix2PixPipeline = StableDiffusionInstructPix2PixPipeline.from_pretrained(
+        model_path if os.path.exists(model_path) else "timbrooks/instruct-pix2pix",
+        #torch_dtype=torch.float16
     )
+    
+    pipe.tokenizer.clean_up_tokenization_spaces = False
 
     pipe = pipe.to("cpu")
+
+    if not os.path.exists(model_path):
+        pipe.save_pretrained(model_path)
 
     ret_image = pipe(prompt=prompt, image=image).images[0]
 
@@ -114,6 +125,6 @@ if len(args) != 1:
         print(f"Error loading image, message: {e}")
         sys.exit(1)
 
-generate_image(prompt, image, show_image, save_image_path)
+    generate_image(prompt, image, show_image, save_image_path)
 
-sys.exit(0)
+    sys.exit(0)
