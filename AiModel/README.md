@@ -37,7 +37,7 @@ python3 genimage.py "A beautiful sunset" "sunset.jpg" true "/home/username/Deskt
 
 from genimage import generate_image
 
-generate_image("A beautiful sunset", "sunset.jpg", show_image="true", save_path="C:/Users/username/Desktop/sunset.png")
+generate_image("A beautiful sunset", "Path/To/sunset.jpg", show_image="true", save_path="Path/To/sunset.png")
 
 ```
 
