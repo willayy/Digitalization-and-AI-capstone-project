@@ -18,24 +18,7 @@ def open_file_explorer():
     else:
         messagebox.showwarning("File Selection", "No file selected or invalid file type.")
 
-def insert_image(image_obj, image_name, loading_window):
-        
-    # Ask the user if they want to save the image in the database
-    save_to_db = messagebox.askyesno("Insert Image", "Do you want to save the generated image to the database?")
-    
-    if save_to_db:
-        # Insert the image into the database
-        insert_generated_image(image_obj, image_name)
-        # Show a success message
-        messagebox.showinfo("Image Generated", "The image has been successfully saved to the database.")
-    else:
-        messagebox.showinfo("Image Not Saved", "The image was not saved to the database.")
-
-    # Close the loading window
-    loading_window.destroy()
-        
-
-def start_image_generation():
+def generate_image_window():
     # Creating the loading window
     loading_window = tk.Toplevel(root)
     loading_window.title("Loading")
@@ -50,15 +33,16 @@ def start_image_generation():
     loading_label.pack(expand=True)
     
     # Function to simulate image generation process
-    def simulate_image_generation():
-        #time.sleep(3)  # Simulate a delay for the image generation process
-        #loading_window.destroy()
-        #messagebox.showinfo("Generate Image", "Image generation process completed.")
-        #send_to_script(entry_var.get(), file_path)
-        generate_image(entry_var.get(), os.path.basename(file_path), "true", "C:/Users/maxdr/testtttt/knas.png")
+    def start_image_generation():
+        prompt = entry_var.get()
+        image = Image.open(file_path)
+        show_image = "true"
+        save_image_path = "C:/Users/maxdr/testtttt/knas.png"
+        
+        generate_image(prompt, image, show_image, save_image_path)
     
     # Run the image generation process in a separate thread to avoid blocking the main thread
-    threading.Thread(target=simulate_image_generation).start()
+    threading.Thread(target=start_image_generation).start()
 
 # Create the main window
 root = tk.Tk()
