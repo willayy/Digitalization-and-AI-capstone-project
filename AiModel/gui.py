@@ -113,7 +113,7 @@ entry.grid(row=1, column=0, columnspan=2, pady=(10, 10), padx=12)
 
 # Create a frame to hold the button and label
 frame = tk.Frame(main_frame)
-frame.grid(row=2, column=0, columnspan=2, pady=10)
+frame.grid(row=2, column=0, columnspan=2, pady=(20, 10))
 
 # Create and place the label inside the frame with increased font size
 label = tk.Label(frame, text="Select an image of your item", font=("Helvetica", 14))
