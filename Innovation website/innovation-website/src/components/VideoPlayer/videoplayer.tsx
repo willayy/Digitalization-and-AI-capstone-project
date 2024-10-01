@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+//import React, { useRef } from 'react';
 
 interface VideoPlayerProps {
   videoSrc: string;  //String name of video to be played
