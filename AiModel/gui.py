@@ -2,7 +2,10 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import os
 import threading
+import time
+import subprocess
 from PIL import Image
+from PIL.Image import Image as Img 
 from genimage import generate_image
 
 def open_file_explorer():
@@ -31,7 +34,11 @@ def generate_image_window():
     loading_label.pack(expand=True)
     
     # Function to simulate image generation process
-    def start_image_generation():
+    def simulate_image_generation():
+        #time.sleep(3)  # Simulate a delay for the image generation process
+        #loading_window.destroy()
+        #messagebox.showinfo("Generate Image", "Image generation process completed.")
+        #send_to_script(entry_var.get(), file_path)
         prompt = entry_var.get()
         image = Image.open(file_path)
         show_image = "true"
