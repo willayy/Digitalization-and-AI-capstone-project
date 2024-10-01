@@ -4,9 +4,8 @@ import os
 import threading
 from PIL import Image
 from genimage import generate_image
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from ImageDB.database import insert_generated_image
+from PIL.Image import Image as Img
+#from ImageDB import database
 
 def open_file_explorer():
     global file_path
@@ -69,8 +68,8 @@ def generate_image_window():
         show_image = "true"
         save_image_path = "C:/Users/maxdr/testtttt/knas.png"
         
-        return_image = generate_image(prompt, image, show_image, save_image_path)
-        insert_image(return_image, "generated_image_from_gui.png")
+        return generate_image(prompt, image, show_image, save_image_path)
+        
     
     # Run the image generation process in a separate thread to avoid blocking the main thread
     threading.Thread(target=start_image_generation).start()
@@ -114,7 +113,7 @@ entry.grid(row=1, column=0, columnspan=2, pady=(10, 10), padx=12)
 
 # Create a frame to hold the button and label
 frame = tk.Frame(main_frame)
-frame.grid(row=2, column=0, columnspan=2, pady=(20, 10))
+frame.grid(row=2, column=0, columnspan=2, pady=10)
 
 # Create and place the label inside the frame with increased font size
 label = tk.Label(frame, text="Select an image of your item", font=("Helvetica", 14))
