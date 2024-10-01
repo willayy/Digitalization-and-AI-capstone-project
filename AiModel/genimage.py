@@ -1,8 +1,10 @@
 import torch
 import os
 from PIL.Image import Image as Img
-from diffusers import StableDiffusionImg2ImgPipeline
-from PIL import Image
+from diffusers.utils import load_image
+from diffusers import AutoPipelineForImage2Image
+from diffusers import DiffusionPipeline
+from diffusers import StableDiffusionInstructPix2PixPipeline
 
 STANDARD_NEGATIVE_PROMPT = """
     doesnt have four legs,
@@ -18,16 +20,7 @@ STANDARD_NEGATIVE_PROMPT = """
     dark
 """
 
-def generate_image(
-        prompt: str,
-        image: Img, 
-        show_image: bool, 
-        save_image_path: str = "", 
-        strength: float = 0.8, 
-        num_inf: int = 50, 
-        guidance: float = 7.5, 
-        neg_prompt= STANDARD_NEGATIVE_PROMPT
-    ) -> None:
+def run_cuda_model(prompt: str, image: Img) -> Img:
 
     model_path = "./local_models/stable-diffusion-v1-5"
 
@@ -49,7 +42,7 @@ def generate_image(
 
 #----------------------------------------------------------- Fake Model -----------------------------------------------------------#
 
-def run_cpu_model(prompt: str, image: Img) -> Image:
+def run_cpu_model(prompt: str, image: Img) -> Img:
 
     model_path = "./local_models/instruct-pix2pix"
 
