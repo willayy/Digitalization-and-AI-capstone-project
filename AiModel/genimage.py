@@ -68,7 +68,7 @@ def run_cpu_model(prompt: str, image: Img) -> Image:
 
 #----------------------------------------------------------- Main Function -----------------------------------------------------------#
 
-def generate_image(prompt: str, image: Img, show_image: str, save_image_path: str) -> None:
+def generate_image(prompt: str, image: Img, show_image: str, save_image_path: str) -> Img:
 
     # The output image
     return_image: Img = None
