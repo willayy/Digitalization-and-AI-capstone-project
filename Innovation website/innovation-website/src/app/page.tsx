@@ -82,8 +82,8 @@ export default function Home() {
               </li>
             </ul>
 
-          <p>
-            <b style={{marginTop: '1rem'}}>The Studio Designer</b> plans the set to enable smooth workflow for the technician and photographer on set. They communicate with the client
+          <p style={{marginBottom: '1rem'}}>
+            <b>The Studio Designer</b> plans the set to enable smooth workflow for the technician and photographer on set. They communicate with the client
             to make as good as solution possible given the budget. The types of pictures are usually a mixture of plain backdrop and lifestyle photos.
             Space and budget are usually the two factors constraining the workflow balance. Given the last question, the studio designer had mixed feelings,
             expressing their understanding of the possibilites but were also worried about the need of her knowledge and expertise.
