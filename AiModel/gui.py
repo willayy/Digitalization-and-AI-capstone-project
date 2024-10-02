@@ -69,8 +69,7 @@ def generate_image_window():
         show_image = "true"
         save_image_path = "C:/Users/maxdr/testtttt/knas.png"
         
-        return_image = generate_image(prompt, image, show_image, save_image_path)
-        insert_image(return_image, "generated_image_from_gui.png")
+        generate_image(prompt, image, show_image, save_image_path)
     
     # Run the image generation process in a separate thread to avoid blocking the main thread
     threading.Thread(target=start_image_generation).start()
