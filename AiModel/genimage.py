@@ -2,7 +2,6 @@ import torch
 import os
 from PIL.Image import Image as Img
 from diffusers import StableDiffusionImg2ImgPipeline
-from PIL import Image
 
 STANDARD_NEGATIVE_PROMPT = """
     doesnt have four legs,

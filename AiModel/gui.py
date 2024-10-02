@@ -3,6 +3,9 @@ from tkinter import filedialog, messagebox, ttk
 import os
 from PIL import Image
 from genimage import generate_image
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from ImageDB.database import insert_generated_image
 
 def open_file_explorer():
     global file_path
@@ -38,6 +41,22 @@ def start_image_generation():
     strength = 0.8
     num_inf = 100
     guidance = 15
+
+    def insert_image(image_obj, image_name):
+        
+        # Ask the user if they want to save the image in the database
+        save_to_db = messagebox.askyesno("Insert Image", "Do you want to save the generated image to the database?")
+        
+        if save_to_db:
+            # Insert the image into the database
+            insert_generated_image(image_obj, image_name)
+            # Show a success message
+            messagebox.showinfo("Image Generated", "The image has been successfully saved to the database.")
+        else:
+            messagebox.showinfo("Image Not Saved", "The image was not saved to the database.")
+
+        # Close the loading window
+        loading_window.destroy()
         
     generate_image(
         prompt,
@@ -79,37 +98,17 @@ entry_var = tk.StringVar()
 main_frame = tk.Frame(root)
 main_frame.pack(expand=True)
 
+# Create and place the new label above the text field
+prompt_label = tk.Label(main_frame, text="Write a prompt for the image background", font=("Helvetica", 14))
+prompt_label.grid(row=0, column=0, columnspan=2, pady=(20, 10))
+
 # Create and place the text field inside the main frame
-entry = tk.Entry(main_frame, textvariable=entry_var, width=20, font=("Helvetica", 14))  # Decreased width
-entry.grid(row=0, column=0, pady=(20, 10), padx=12)
-
-# List of European countries
-european_countries = [
-    "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia and Herzegovina",
-    "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia",
-    "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kazakhstan", "Kosovo", "Latvia", "Liechtenstein",
-    "Lithuania", "Luxembourg", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "North Macedonia", "Norway",
-    "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden",
-    "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City"
-]
-
-selected_country = tk.StringVar()
-
-# Create and place the combobox next to the text field 
-country_combobox = ttk.Combobox(main_frame, values=european_countries, font=("Helvetica", 14), state="readonly", textvariable=selected_country)
-country_combobox.grid(row=0, column=1, pady=(20, 10), padx=12)
-country_combobox.set("Select a country")
-
-# Set focus to next widget after selection
-def on_combobox_select(event):
-    print(selected_country.get())
-    button.focus()
-
-country_combobox.bind("<<ComboboxSelected>>", on_combobox_select)
+entry = tk.Entry(main_frame, textvariable=entry_var, width=40, font=("Helvetica", 14))  # Decreased width
+entry.grid(row=1, column=0, columnspan=2, pady=(10, 10), padx=12)
 
 # Create a frame to hold the button and label
 frame = tk.Frame(main_frame)
-frame.grid(row=1, column=0, columnspan=2, pady=10)
+frame.grid(row=2, column=0, columnspan=2, pady=(20, 10))
 
 # Create and place the label inside the frame with increased font size
 label = tk.Label(frame, text="Select an image of your item", font=("Helvetica", 14))
@@ -121,11 +120,11 @@ button.pack(side=tk.LEFT)
 
 # Create a label to display the filename
 filename_label = tk.Label(main_frame, text="", font=("Helvetica", 14))
-filename_label.grid(row=2, column=0, columnspan=2, pady=(10, 0))
+filename_label.grid(row=3, column=0, columnspan=2, pady=(10, 0))
 
 # Create a frame for the action button
 action_frame = tk.Frame(main_frame)
-action_frame.grid(row=3, column=0, columnspan=2, pady=(10, 20)) 
+action_frame.grid(row=4, column=0, columnspan=2, pady=(10, 20)) 
 
 # Create and place the "Generate image" button inside the action frame
 generate_button = tk.Button(action_frame, text="Generate image", command=start_image_generation, font=("Helvetica", 14), bg="lightblue")
