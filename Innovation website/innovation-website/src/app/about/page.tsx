@@ -44,7 +44,7 @@ export default function About() {
       </div>
 
       <div>
-        <h2>TEK830</h2>
+        <h2>TEK830 Digitalization and AI in practice</h2>
       </div>
 
       <div className={styles.imagediv}>

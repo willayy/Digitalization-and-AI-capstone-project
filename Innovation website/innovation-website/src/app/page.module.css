@@ -37,25 +37,26 @@
 }
 
 .textDiv {
-    margin-left: 600px;
-    margin-right: 600px;
+    margin-left: 300px;
+    margin-right: 300px;
     margin-bottom: 150px;
 }
 
 .text {
-    margin-left: 600px;
-    margin-right: 600px;
+    margin-left: 300px;
+    margin-right: 300px;
 }
 
-.sectionOne {
-  height: 100vh;
-}
-
-.sectionTwo {
+.section {
   height: 100vh;
 }
 
 .header {
   display: flex;
   align-items: center;
+}
+
+.textInsert {
+  margin-left: 200px;
+  margin-right: 200px;
 }
