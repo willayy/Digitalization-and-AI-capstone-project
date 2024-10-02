@@ -48,26 +48,14 @@ def generate_image_window():
         # Close the loading window
         loading_window.destroy()
 
-    # Function to simulate loading your own image for testing only!
-    # def start_image_loading():
-    #     if file_path:
-    #         image_name = os.path.basename(file_path)  # Use the selected file name as the image name
-    #         with open(file_path, 'rb') as img_file:
-    #             image_data = img_file.read()
-    #             image_obj = Image.open(file_path)  # Open the image using PIL
-    #             image_obj.show()  # Display the image for user to confirm
-    #         insert_image(image_obj, image_name)  # Insert into the database
-    #     else:
-    #         messagebox.showwarning("File Selection", "No file selected or invalid file type.")
-    #         loading_window.destroy()
-        
-    # Function to simulate image generation process
+    
     prompt = entry_var.get()
     image = Image.open(file_path)
     show_image = "true"
     save_image_path = "C:/Users/maxdr/testtttt/knas.png"
     
     generate_image(prompt, image, show_image, save_image_path)
+    
 
 # Create the main window
 root = tk.Tk()
