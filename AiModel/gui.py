@@ -33,7 +33,6 @@ def insert_image(image_obj, image_name, loading_window):
     # Close the loading window
     loading_window.destroy()
         
-
 def start_image_generation():
     # Creating the loading window
     loading_window = tk.Toplevel(root)
