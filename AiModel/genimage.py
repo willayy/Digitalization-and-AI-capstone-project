@@ -2,8 +2,9 @@ import torch
 import os
 from PIL.Image import Image as Img
 from diffusers import StableDiffusionImg2ImgPipeline
+from PIL import Image
 
-def generate_image(prompt: str, image: Img, show_image: str, save_image_path: str, strength: float = 0.8, num_inf: int = 50, guidance: float = 7.5, neg_prompt="chandeliers, zoomed out, tables that doesnt have four legs") -> None:
+def generate_image(prompt: str, image: Img, show_image: str, save_image_path: str = "", strength: float = 0.8, num_inf: int = 50, guidance: float = 7.5, neg_prompt="chandeliers, zoomed out, tables that doesnt have four legs") -> None:
 
     MODEL_PATH: str = "./local_models/stable-diffusion-v1-5"
     DEVICE: str = ""
@@ -23,6 +24,8 @@ def generate_image(prompt: str, image: Img, show_image: str, save_image_path: st
 
         DEVICE = "mps"
 
+        os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
+
     else:
 
         print("CUDA is unavailable, running CPU model.")
@@ -38,13 +41,17 @@ def generate_image(prompt: str, image: Img, show_image: str, save_image_path: st
         MODEL_PATH if os.path.exists(MODEL_PATH) else "runwayml/stable-diffusion-v1-5"
     )
 
-    pipe.tokenizer.clean_up_tokenization_spaces = False
+    #pipe.tokenizer.clean_up_tokenization_spaces = False
 
     pipe.to(DEVICE)
 
     if not os.path.exists(MODEL_PATH): pipe.save_pretrained(MODEL_PATH)
 
-    if CUDA or MPS: pipe.enable_sequential_cpu_offload(device=DEVICE)
+    #if CUDA or MPS: pipe.enable_sequential_cpu_offload(device=DEVICE)
+
+    init_image = image.convert("RGB")
+
+    init_image = init_image.resize((768, 512))
 
     generated_image = pipe(prompt=prompt, image=image, strength=strength, num_inference_steps=num_inf, guidance_scale=guidance, negative_prompt=neg_prompt).images[0]
 
@@ -62,4 +69,4 @@ def generate_image(prompt: str, image: Img, show_image: str, save_image_path: st
 
     return generated_image
 
-
+generate_image("Fill in background with, Cozy, Modern, European, Living Room", Image.open("AiModel/Trials/table.jpg"), "true")
