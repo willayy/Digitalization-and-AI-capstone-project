@@ -24,6 +24,7 @@ def generate_image(prompt: str, image: Img, show_image: str, save_image_path: st
 
         DEVICE = "mps"
 
+        # Let MPS use all available memory, may cause system failure
         os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
 
     else:
@@ -38,21 +39,31 @@ def generate_image(prompt: str, image: Img, show_image: str, save_image_path: st
 
     # Run the model
     pipe: StableDiffusionImg2ImgPipeline = StableDiffusionImg2ImgPipeline.from_pretrained(
-        MODEL_PATH if os.path.exists(MODEL_PATH) else "runwayml/stable-diffusion-v1-5"
+        MODEL_PATH if os.path.exists(MODEL_PATH) else "runwayml/stable-diffusion-v1-5",
+        torch_dtype = torch.float16 if DEVICE != "cpu" else "auto" # Use float16 to save memory
     )
 
-    #pipe.tokenizer.clean_up_tokenization_spaces = False
-
-    pipe.to(DEVICE)
+    # Disable this subdue warning
+    pipe.tokenizer.clean_up_tokenization_spaces = False
 
     if not os.path.exists(MODEL_PATH): pipe.save_pretrained(MODEL_PATH)
 
-    #if CUDA or MPS: pipe.enable_sequential_cpu_offload(device=DEVICE)
+    # Set the device for the model
+    pipe.to(DEVICE)
 
+    # If using GPU or MPS, enable sequential CPU offload to reduce memory usage
+    if CUDA or MPS: 
+        pipe.enable_sequential_cpu_offload(device=DEVICE)
+        
+    # Memory saving measures
+    pipe.enable_vae_tiling()
+    pipe.enable_attention_slicing()
+
+    # Prepare image
     init_image = image.convert("RGB")
-
     init_image = init_image.resize((768, 512))
 
+    # Generate image
     generated_image = pipe(prompt=prompt, image=image, strength=strength, num_inference_steps=num_inf, guidance_scale=guidance, negative_prompt=neg_prompt).images[0]
 
     print("model has finished running.")
