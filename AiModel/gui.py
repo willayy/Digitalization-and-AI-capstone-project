@@ -68,7 +68,6 @@ def start_image_generation():
         guidance
     )
 
-    
 # Create the main window
 root = tk.Tk()
 root.title("SKAPA")
