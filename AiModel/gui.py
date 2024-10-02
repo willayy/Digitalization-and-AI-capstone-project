@@ -31,16 +31,12 @@ def generate_image_window():
     loading_label.pack(expand=True)
     
     # Function to simulate image generation process
-    def start_image_generation():
-        prompt = entry_var.get()
-        image = Image.open(file_path)
-        show_image = "true"
-        save_image_path = "C:/Users/maxdr/testtttt/knas.png"
-        
-        generate_image(prompt, image, show_image, save_image_path)
+    prompt = entry_var.get()
+    image = Image.open(file_path)
+    show_image = "true"
+    save_image_path = "C:/Users/maxdr/testtttt/knas.png"
     
-    # Run the image generation process in a separate thread to avoid blocking the main thread
-    threading.Thread(target=start_image_generation).start()
+    generate_image(prompt, image, show_image, save_image_path)
 
 # Create the main window
 root = tk.Tk()
