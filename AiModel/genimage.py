@@ -45,7 +45,7 @@ def generate_image(
     # If neither CUDA or MPS is available, run on CPU
     else:
 
-        print("CUDA is unavailable, running CPU model.")
+        print("CUDA and MPS is unavailable, running CPU model.")
 
         num_threads = os.cpu_count()
 
@@ -56,7 +56,7 @@ def generate_image(
     # Run the model using a diffusers pipeline
     pipe: StableDiffusionImg2ImgPipeline = StableDiffusionImg2ImgPipeline.from_pretrained(
         MODEL_PATH if os.path.exists(MODEL_PATH) else "runwayml/stable-diffusion-v1-5",
-        torch_dtype = torch.float32 if DEVICE != "cpu" else "auto" # Use float16 to save memory
+        torch_dtype = torch.float32 
     )
 
     # Disable this subdue warning
