@@ -5,8 +5,17 @@ from diffusers import StableDiffusionImg2ImgPipeline
 from PIL import Image
 
 STANDARD_NEGATIVE_PROMPT = """
-    more than 4 legs,
-    less than 4 legs
+    doesnt have four legs,
+    watermarked,
+    white background,
+    cartoonish,
+    low quality,
+    pixelated,
+    blurry,
+    distorted,
+    not realistic,
+    not detailed,
+    dark
 """
 
 def generate_image(
@@ -100,4 +109,11 @@ def generate_image(
 
     return generated_image
 
-generate_image("Fill in background with a Cozy, Modern, European, Living Room", Image.open("AiModel/Trials/table.jpg"), "true")
+generate_image(
+    "Fill in background with a Cozy, Modern, European, Living Room",
+    Image.open("AiModel/Trials/table.jpg"),
+    True,
+    strength=0.4,
+    num_inf=100,
+    guidance=12
+)
