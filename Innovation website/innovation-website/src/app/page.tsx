@@ -18,46 +18,44 @@ export default function Home() {
 
       <div className={styles.section}>
         <h2 className={styles.designTitle} ref={specificH2Ref}>The design behind</h2>
-        <p className={styles.text}>
-          When working on this project we have applied the three design thinking principles and tried to solve the
-          problem that was given to us. Down below is an explanation on how we reasoned.
-        </p>
+    
         <br />
         <div className={styles.textDiv} >
           <h2> Usability </h2>
           <br />
           <p>
-          This project deals with a very new technology that is difficult to understand without a deep knowledge of
-          software development and AI. The end goal for this project is a product that requires little to no
-          programming skills. That is why we in our research have reached out to people who work in design and
-          marketing and asked what problems they face when creating ads etc. Our way of solving this have been to
-          create a simple and sleek graphical interface that allows users with no prior AI experience to create
-          prompts and generate images that are stored in a database and can be used by other clients.
+            The idea of SKAPA is to create a tool capable of generating environmental and lifestyle images based on
+            an input image or 3D-model. We want to accomplish this as it enables IKEA an ability to adapt their images 
+            based on the market which they are meant to be used towards. The main goal of SKAPA is to produce these images 
+            in a european environment with focus on living rooms and relaxation areas. However, we believe a tool like 
+            this, given enough sample data, would really work for any type of environment. Our goal is to create a very simple
+            and straight forward graphical interface so that anyone could use the software regardless of skills in either photography
+            or software development. Any images created will be stored in a database which can be accessed by clients IKEA wish
+            access to.
           </p>
           <br />
 
           <h2> Feasibility </h2>
           <br />
           <p>
-          This product is very scalable and therefore works more as a proof of concept than a finished AI tool as we
-          are limited by factors such time, money and other resources. While the AI model might not be able to compete
-          with the most common models on the market right now, that is something that IKEA very easily can fix with
-          their resources. Our product is similar to a computer in a way. By replacing say a graphical component it is
-          possible to keep using the same computer. The same is true for our product by replacing the AI model.
-          The main cost of this product is the license for the AI itself which is why this product is referred to as a
-          proof of concept.
+            While our AI model in the current state, and most likely later state for the final delivery, is not able to compete with
+            other image generators on the market, we still want to give IKEA an idea of what is feasible, especially considering they
+            have additional resources. And like we said before, we believe a model like this could extend beyond our current set of 
+            environmental parameters. A lot of sample data already exists as we believe IKEA would appreciate if the model could produce 
+            similar images to those already found today on their website. Our key takeaway here is it might not be feasible for us to 
+            create something like this with our limited sources in terms of funding and time, but it would most definitely be possible 
+            for a sizeable company to do so.
           </p>
           <br />
 
           <h2> Viability </h2>
           <br />
           <p>
-          We have looked at key values for IKEA and worked a lot towards simplicity and staying relevant in a modern
-          world. AI is very modern technology and have become a huge part of society. We are trying to make that
-          technology more easily accessible for IKEA. IKEA works a lot towards simplicity which is a key element to
-          our product. One sustainability issue that we have talked a lot about is the affect that training AI models
-          have on the climate. training large models requires a lot of energy and our conclusion is that IKEA sits in
-          a position to demand sustainably trained models and try to push in the right direction.
+            Based on IKEA's key values and goals we want to tailor SKAPA to be as simple as possible and grant use of the powerful 
+            technology we have today. We want to highlight that a tool which is capable of generating images and eliminating the needs 
+            of hiring set designers, photographers and the like will likely have a negative impact on job availability among those whose 
+            expertise lies within any of these fields. In the end, an image generator would enable cut costs which might aid in reducing 
+            prices in their goal to be affordable to anyone.
           </p>
           <br />
 
