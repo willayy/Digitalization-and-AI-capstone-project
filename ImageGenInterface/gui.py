@@ -52,9 +52,9 @@ def start_image_generation():
     prompt = entry_var.get()
     image = Image.open(file_path)
     show_image = True
-    n = len(os.listdir("AiModel/Trials")) + 1
+    n = len(os.listdir("ImageGenInterface/Trials")) + 1
     image_name = f"output-{n}.jpg"
-    save_image_path = f"AiModel/Trials/{image_name}"
+    save_image_path = f"ImageGenInterface/Trials/{image_name}"
     strength = 0.8
     num_inf = 100
     guidance = 15
