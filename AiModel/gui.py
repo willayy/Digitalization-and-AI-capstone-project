@@ -32,7 +32,7 @@ def start_image_generation():
     # Function to simulate image generation process
     prompt = entry_var.get()
     image = Image.open(file_path)
-    show_image = "true"
+    show_image = True
     save_image_path = "AiModel/Trials/output.jpg"
         
     generate_image(prompt, image, show_image, save_image_path)
