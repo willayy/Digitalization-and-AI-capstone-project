@@ -3,12 +3,10 @@ import os
 from PIL.Image import Image as Img
 from diffusers import StableDiffusionImg2ImgPipeline
 
-def generate_image(prompt: str, image: Img, show_image: str, save_image_path: str, strength: float = 0.8, num_inf: int = 50, guidance: float = 7.5, neg_prompt="more than a single furniture") -> None:
+def generate_image(prompt: str, image: Img, show_image: str, save_image_path: str, strength: float = 0.8, num_inf: int = 50, guidance: float = 7.5, neg_prompt="chandeliers, zoomed out, tables that doesnt have four legs") -> None:
 
-    model_path = "./AiModel/local_models/stable-diffusion-v1-5"
-
-    device: str = ""
-
+    MODEL_PATH: str = "./local_models/stable-diffusion-v1-5"
+    DEVICE: str = ""
     CUDA = torch.cuda.is_available()
     MPS = torch.backends.mps.is_available()
 
@@ -17,13 +15,13 @@ def generate_image(prompt: str, image: Img, show_image: str, save_image_path: st
 
         print("CUDA is available")
 
-        device = "cuda"
+        DEVICE = "cuda"
         
     elif MPS:
             
         print("MPS is available")
 
-        device = "mps"
+        DEVICE = "mps"
 
     else:
 
@@ -33,27 +31,20 @@ def generate_image(prompt: str, image: Img, show_image: str, save_image_path: st
 
         torch.set_num_threads(num_threads)  # Adjust based on your CPU
 
-        device = "cpu"
+        DEVICE = "cpu"
 
     # Run the model
     pipe: StableDiffusionImg2ImgPipeline = StableDiffusionImg2ImgPipeline.from_pretrained(
-        model_path if os.path.exists(model_path) else "runwayml/stable-diffusion-v1-5"
+        MODEL_PATH if os.path.exists(MODEL_PATH) else "runwayml/stable-diffusion-v1-5"
     )
 
-    pipe.to(device)
+    pipe.tokenizer.clean_up_tokenization_spaces = False
 
-    if CUDA:
+    pipe.to(DEVICE)
 
-        pipe.enable_sequential_cpu_offload()
+    if not os.path.exists(MODEL_PATH): pipe.save_pretrained(MODEL_PATH)
 
-    if MPS:
-
-        pipe.enable_sequential_cpu_offload(device="mps")
-
-
-    if not os.path.exists(model_path):
-
-        pipe.save_pretrained(model_path)
+    if CUDA or MPS: pipe.enable_sequential_cpu_offload(device=DEVICE)
 
     generated_image = pipe(prompt=prompt, image=image, strength=strength, num_inference_steps=num_inf, guidance_scale=guidance, negative_prompt=neg_prompt).images[0]
 
