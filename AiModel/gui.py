@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import os
-import threading
 from PIL import Image
 from genimage import generate_image
 
@@ -16,7 +15,7 @@ def open_file_explorer():
     else:
         messagebox.showwarning("File Selection", "No file selected or invalid file type.")
 
-def generate_image_window():
+def start_image_generation():
     # Creating the loading window
     loading_window = tk.Toplevel(root)
     loading_window.title("Loading")
@@ -31,17 +30,13 @@ def generate_image_window():
     loading_label.pack(expand=True)
     
     # Function to simulate image generation process
-    def start_image_generation():
-        prompt = entry_var.get()
-        image = Image.open(file_path)
-        show_image = "true"
-        save_image_path = "C:/Users/maxdr/testtttt/knas.png"
+    prompt = entry_var.get()
+    image = Image.open(file_path)
+    show_image = "true"
+    save_image_path = "AiModel/Trials/output.jpg"
         
-        generate_image(prompt, image, show_image, save_image_path)
+    generate_image(prompt, image, show_image, save_image_path)
     
-    # Run the image generation process in a separate thread to avoid blocking the main thread
-    threading.Thread(target=start_image_generation).start()
-
 # Create the main window
 root = tk.Tk()
 root.title("SKAPA")
@@ -92,7 +87,6 @@ country_combobox = ttk.Combobox(main_frame, values=european_countries, font=("He
 country_combobox.grid(row=0, column=1, pady=(20, 10), padx=12)
 country_combobox.set("Select a country")
 
-
 # Set focus to next widget after selection
 def on_combobox_select(event):
     print(selected_country.get())
@@ -121,7 +115,7 @@ action_frame = tk.Frame(main_frame)
 action_frame.grid(row=3, column=0, columnspan=2, pady=(10, 20)) 
 
 # Create and place the "Generate image" button inside the action frame
-generate_button = tk.Button(action_frame, text="Generate image", command=generate_image_window, font=("Helvetica", 14), bg="lightblue")
+generate_button = tk.Button(action_frame, text="Generate image", command=start_image_generation, font=("Helvetica", 14), bg="lightblue")
 generate_button.pack()
 
 # Run the application
