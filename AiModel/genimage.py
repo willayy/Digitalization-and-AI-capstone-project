@@ -108,12 +108,3 @@ def generate_image(
         print("image saved.")
 
     return generated_image
-
-generate_image(
-    "Fill in background with a Cozy, Modern, European, Living Room",
-    Image.open("AiModel/Trials/table.jpg"),
-    True,
-    strength=0.4,
-    num_inf=100,
-    guidance=12
-)

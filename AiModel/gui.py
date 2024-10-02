@@ -29,13 +29,26 @@ def start_image_generation():
     loading_label = tk.Label(loading_window, text="Generating image...", font=("Helvetica", 14))
     loading_label.pack(expand=True)
     
-    # Function to simulate image generation process
+    # Parameters for the generate_image function
     prompt = entry_var.get()
     image = Image.open(file_path)
     show_image = True
-    save_image_path = "AiModel/Trials/output.jpg"
+    n = len(os.listdir("AiModel/Trials")) + 1
+    save_image_path = f"AiModel/Trials/output-{n}.jpg"
+    strength = 0.8
+    num_inf = 100
+    guidance = 15
         
-    generate_image(prompt, image, show_image, save_image_path)
+    generate_image(
+        prompt,
+        image,
+        show_image,
+        save_image_path,
+        strength,
+        num_inf,
+        guidance
+    )
+
     
 # Create the main window
 root = tk.Tk()
