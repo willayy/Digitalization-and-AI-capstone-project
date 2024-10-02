@@ -18,7 +18,24 @@ def open_file_explorer():
     else:
         messagebox.showwarning("File Selection", "No file selected or invalid file type.")
 
-def generate_image_window():
+def insert_image(image_obj, image_name, loading_window):
+        
+    # Ask the user if they want to save the image in the database
+    save_to_db = messagebox.askyesno("Insert Image", "Do you want to save the generated image to the database?")
+    
+    if save_to_db:
+        # Insert the image into the database
+        insert_generated_image(image_obj, image_name)
+        # Show a success message
+        messagebox.showinfo("Image Generated", "The image has been successfully saved to the database.")
+    else:
+        messagebox.showinfo("Image Not Saved", "The image was not saved to the database.")
+
+    # Close the loading window
+    loading_window.destroy()
+        
+
+def start_image_generation():
     # Creating the loading window
     loading_window = tk.Toplevel(root)
     loading_window.title("Loading")
@@ -31,35 +48,30 @@ def generate_image_window():
     # Adding a label to the loading window 
     loading_label = tk.Label(loading_window, text="Generating image...", font=("Helvetica", 14))
     loading_label.pack(expand=True)
-
-    def insert_image(image_obj, image_name):
-        
-        # Ask the user if they want to save the image in the database
-        save_to_db = messagebox.askyesno("Insert Image", "Do you want to save the generated image to the database?")
-        
-        if save_to_db:
-            # Insert the image into the database
-            insert_generated_image(image_obj, image_name)
-            # Show a success message
-            messagebox.showinfo("Image Generated", "The image has been successfully saved to the database.")
-        else:
-            messagebox.showinfo("Image Not Saved", "The image was not saved to the database.")
-
-        # Close the loading window
-        loading_window.destroy()
-
     
+    # Parameters for the generate_image function
     prompt = entry_var.get()
     image = Image.open(file_path)
-    show_image = "true"
-    save_image_path = "C:/Users/maxdr/testtttt/knas.png"
-    
-    generate_image(prompt, image, show_image, save_image_path)
-    
+    show_image = True
+    n = len(os.listdir("AiModel/Trials")) + 1
+    image_name = f"output-{n}.jpg"
+    save_image_path = f"AiModel/Trials/{image_name}"
+    strength = 0.8
+    num_inf = 100
+    guidance = 15
 
-    
-    # Run the image generation process in a separate thread to avoid blocking the main thread
-    threading.Thread(target=start_image_generation).start()
+    image = generate_image(
+        prompt,
+        image,
+        show_image,
+        save_image_path,
+        strength,
+        num_inf,
+        guidance
+    )
+
+    # Insert the image into the database
+    insert_image(image, f"output-{n}.jpg", loading_window)
 
 # Create the main window
 root = tk.Tk()
