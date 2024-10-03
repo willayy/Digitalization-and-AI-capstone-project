@@ -52,7 +52,7 @@ export default function Home() {
           <h2> Viability </h2>
           <br />
           <p>
-            Based on IKEA's key values and goals we want to tailor SKAPA to be as simple as possible and grant use of the powerful 
+            Based on IKEAs key values and goals we want to tailor SKAPA to be as simple as possible and grant use of the powerful 
             technology we have today. We want to highlight that a tool which is capable of generating images and eliminating the needs 
             of hiring set designers, photographers and the like will likely have a negative impact on job availability among those whose 
             expertise lies within any of these fields. In the end, an image generator would enable cut costs which might aid in reducing 
@@ -68,7 +68,7 @@ export default function Home() {
         <div className={styles.textDiv}>
 
           <p>In order to make a product as good as possible, we wanted to interview our imagiend end users to aid our design process to make it as usable as 
-            possible. We made an attempt to reach out to People & Culture at Inter IKEA AB but weren't able to get a reply within our time frame. Instead, we used
+            possible. We made an attempt to reach out to People & Culture at Inter IKEA AB but werent able to get a reply within our time frame. Instead, we used
             ChatGPT to make up three different personas of the type of people we would have liked to interview. The three different personas had following jobs:
             Studio Designer, Equipment Technician and Product Stylist and Photogorapher</p>
 
@@ -92,14 +92,14 @@ export default function Home() {
 
           <p style={{marginBottom: '1rem'}}>
             <b>The Equipment Technician</b> installs cameras, lightning and similar on the set. The workflow is often great but can falter if something breaks
-            or doesn't work as intended. They don't interfer much in regards to the artistic side and let the others decide how the pictures will turn out.
+            or doesnt work as intended. They dont interfer much in regards to the artistic side and let the others decide how the pictures will turn out.
             The technician were positive to the ideas of the tool but emphasized the importance of things looking realisticly.
           </p>
 
           <p style={{marginBottom: '1rem'}}>
             <b>The Product Stylist and Photographer</b> styles the set by making smaller adjustments and captures the photographs. Sometimes they experience
             difficulties in capturing specific products which might have characteristics interfering with light just to name an example. They usually shoot plain 
-            backdrops but also more lifestyle and environmental pictures too if that is what's asked for. Besides lightning interference, time management can also
+            backdrops but also more lifestyle and environmental pictures too if that is whats asked for. Besides lightning interference, time management can also
             be an issue. The stylist also thought of the AI-tool to be useful and enables them to focus on the details. They highlighted the importance of everything 
             looking realisticly.
           </p>
