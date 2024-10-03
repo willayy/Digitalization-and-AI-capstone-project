@@ -13,7 +13,7 @@ export default function Home() {
           <h1 className={styles.header}>Welcome to the future of marketing!</h1>
         <div className={styles.video}>
           
-          <VideoPlayer videoSrc="SKAPA-Prototype-1.mp4" h2Ref={specificH2Ref} />
+          <VideoPlayer videoSrc="VSieaMqd-iY" h2Ref={specificH2Ref} />
         </div>
       </div>
 

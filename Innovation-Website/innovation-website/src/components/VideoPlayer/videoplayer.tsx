@@ -1,33 +1,47 @@
 'use client';
 
-//import React, { useRef } from 'react';
+import React, { useRef } from 'react';
+import YouTube from 'react-youtube';
 
 interface VideoPlayerProps {
-  videoSrc: string;  //String name of video to be played
+  videoSrc: string; // YouTube video ID
   h2Ref: React.RefObject<HTMLHeadingElement>;
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoSrc, h2Ref }) => {
   const scrollToH2 = () => {
     if (h2Ref.current) {
-      const headerHeight = 90; // Change this to the height of your header
-      const h2Position = h2Ref.current.getBoundingClientRect().top + window.scrollY;
-      const offsetPosition = h2Position - headerHeight; // Subtract the header height for offset
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth' // Smooth scroll animation
-      });
+      const offset = 100; // Adjust the offset value to set the distance between the h2 and the header
+      const h2Position = h2Ref.current.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: h2Position, behavior: 'smooth' });
     }
   };
 
-   return (
-      <>
-        <video width="1000" controls autoPlay muted onEnded={scrollToH2}>
-          <source src={videoSrc} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </>
-    );
+  // Function to be called when the video ends
+  const onVideoEnd = () => {
+    scrollToH2();
   };
 
-  export default VideoPlayer;
+  // YouTube player options
+  const videoOptions = {
+    height: '500',
+    width: '800',
+    playerVars: {
+      autoplay: 1,
+      mute: 1,
+      vq: "hd1080",
+    },
+  };
+
+  return (
+    <>
+      <YouTube
+        videoId={videoSrc} // YouTube video ID
+        opts={videoOptions}
+        onEnd={onVideoEnd} // Auto-scroll when the video ends
+      />
+    </>
+  );
+};
+
+export default VideoPlayer;
