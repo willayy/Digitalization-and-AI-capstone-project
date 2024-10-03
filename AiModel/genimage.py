@@ -5,6 +5,7 @@ from diffusers.utils import load_image
 from diffusers import AutoPipelineForImage2Image
 from diffusers import DiffusionPipeline
 from diffusers import StableDiffusionInstructPix2PixPipeline
+from diffusers import StableDiffusionImg2ImgPipeline
 
 STANDARD_NEGATIVE_PROMPT = """
     doesnt have four legs,
@@ -68,10 +69,21 @@ def run_cpu_model(prompt: str, image: Img) -> Img:
 
 #----------------------------------------------------------- Main Function -----------------------------------------------------------#
 
-def generate_image(prompt: str, image: Img, show_image: str, save_image_path: str) -> Img:
+def generate_image(
+        prompt: str,
+        image: Img, 
+        show_image: bool, 
+        save_image_path: str = "", 
+        strength: float = 0.8, 
+        num_inf: int = 50, 
+        guidance: float = 7.5, 
+        neg_prompt= STANDARD_NEGATIVE_PROMPT
+    ) -> None:
 
-    # The output image
-    return_image: Img = None
+    MODEL_PATH: str = "./local_models/stable-diffusion-v1-5"
+    DEVICE: str = ""
+    CUDA = torch.cuda.is_available()
+    MPS = torch.backends.mps.is_available()
 
     # Check if cuda is available
     if CUDA:
@@ -186,3 +198,6 @@ if len(args) != 1:
     generate_image(prompt, image, show_image, save_image_path)
 
     sys.exit(0)
+    
+    return generated_image
+

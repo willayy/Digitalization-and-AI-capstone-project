@@ -6,6 +6,11 @@ from PIL import Image
 from genimage import generate_image
 from PIL.Image import Image as Img
 #from ImageDB import database
+from PIL import Image
+from genimage import generate_image
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from ImageDB.database import insert_generated_image
 
 def open_file_explorer():
     global file_path
@@ -33,7 +38,6 @@ def insert_image(image_obj, image_name, loading_window):
 
     # Close the loading window
     loading_window.destroy()
-        
 
 def start_image_generation():
     # Creating the loading window
@@ -112,7 +116,7 @@ entry.grid(row=1, column=0, columnspan=2, pady=(10, 10), padx=12)
 
 # Create a frame to hold the button and label
 frame = tk.Frame(main_frame)
-frame.grid(row=2, column=0, columnspan=2, pady=10)
+frame.grid(row=2, column=0, columnspan=2, pady=(20, 10))
 
 # Create and place the label inside the frame with increased font size
 label = tk.Label(frame, text="Select an image of your item", font=("Helvetica", 14))
@@ -131,7 +135,7 @@ action_frame = tk.Frame(main_frame)
 action_frame.grid(row=4, column=0, columnspan=2, pady=(10, 20)) 
 
 # Create and place the "Generate image" button inside the action frame
-generate_button = tk.Button(action_frame, text="Generate image", command=generate_image_window, font=("Helvetica", 14), bg="lightblue")
+generate_button = tk.Button(action_frame, text="Generate image", command=start_image_generation, font=("Helvetica", 14), bg="lightblue")
 generate_button.pack()
 
 # Run the application
