@@ -5,10 +5,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #ffffff;
     --foreground: #ededed;
   }
 }
+
+
 
 html,
 body {
@@ -23,6 +25,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 
 * {
   box-sizing: border-box;
@@ -40,3 +43,10 @@ a {
     color-scheme: dark;
   }
 }
+
+.content {
+  margin-top: 5rem; 
+}
+
+
+

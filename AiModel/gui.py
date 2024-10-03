@@ -1,6 +1,11 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import os
+import threading
+from PIL import Image
+from genimage import generate_image
+from PIL.Image import Image as Img
+#from ImageDB import database
 from PIL import Image
 from genimage import generate_image
 import sys
@@ -33,7 +38,7 @@ def insert_image(image_obj, image_name, loading_window):
 
     # Close the loading window
     loading_window.destroy()
-        
+
 def start_image_generation():
     # Creating the loading window
     loading_window = tk.Toplevel(root)
