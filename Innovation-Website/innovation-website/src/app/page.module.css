@@ -1,0 +1,65 @@
+@font-face {
+  font-family: 'Fredoka';
+  src: url('/Fredoka-VariableFont.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.homePage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: black;
+    font-family: "Fredoka", sans-serif;
+}
+
+.homePage h1 {
+  font-size: 50px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center; /* This will center the text horizontally */
+  width: 100%; /* Make sure the element takes the full width */
+}
+
+.homePage video {
+    display: block;
+    margin: 0 auto;
+
+}
+
+.designTitle {
+    margin-bottom: 50px;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.textDiv {
+    margin-left: 300px;
+    margin-right: 300px;
+    margin-bottom: 150px;
+}
+
+.text {
+    margin-left: 300px;
+    margin-right: 300px;
+}
+
+.section {
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.textInsert {
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
