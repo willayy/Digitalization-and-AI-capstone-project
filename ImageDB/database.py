@@ -4,6 +4,7 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 import io
 import os
+import sys
 
 def create_database():
     connection = None
@@ -11,12 +12,12 @@ def create_database():
         connection = psycopg2.connect(
             host='localhost',
             database='postgres',
-            user='postgres',  
-            password='postgres' 
+            user='postgres',
+            password='postgres'
         )
         connection.autocommit = True
         cursor = connection.cursor()
-        
+
         try:
             cursor.execute("CREATE DATABASE ImageDB;")
             print("Database 'ImageDB' created successfully.")
@@ -40,7 +41,7 @@ def create_table():
             password='postgres'
         )
         cursor = connection.cursor()
-        
+
         # Check if the table already exists
         cursor.execute("""
             SELECT EXISTS (
@@ -49,13 +50,11 @@ def create_table():
             );
         """)
         table_exists = cursor.fetchone()[0]
-        
+
         if not table_exists:
-            # Construct the path to 'create_table.sql'
             current_dir = os.path.dirname(os.path.abspath(__file__))
             sql_file_path = os.path.join(current_dir, 'create_table.sql')
 
-            # Check if 'create_table.sql' exists
             if os.path.exists(sql_file_path):
                 with open(sql_file_path, 'r') as file:
                     sql_commands = file.read()
@@ -87,8 +86,8 @@ def insert_generated_image(image_obj, image_name):
 
         # Convert the PIL image object to bytes
         image_bytes = io.BytesIO()
-        image_obj.save(image_bytes, format='PNG')  # Save as PNG
-        image_bytes = image_bytes.getvalue()  # Get the byte data
+        image_obj.save(image_bytes, format='PNG')
+        image_bytes = image_bytes.getvalue()
 
         cursor.execute(
             "INSERT INTO images (image_name, image_data) VALUES (%s, %s)",
@@ -104,16 +103,20 @@ def insert_generated_image(image_obj, image_name):
         if connection:
             connection.close()
 
+def insert_image(file_path):
+    image_obj = Image.open(file_path)
+    image_name = os.path.basename(file_path)
+    insert_generated_image(image_obj, image_name)
+
 def choose_file_and_insert():
-    # Open a file dialog to choose a PNG file
     root = tk.Tk()
-    root.withdraw()  # Hide the root window
+    root.withdraw()
     file_path = filedialog.askopenfilename(
         title="Select a PNG Image",
         filetypes=[("PNG Files", "*.png")]
     )
-    
-    if file_path:  # If a file was selected
+
+    if file_path:
         insert_image(file_path)
 
 def display_image_from_database(image_name):
@@ -127,14 +130,13 @@ def display_image_from_database(image_name):
         )
         cursor = connection.cursor()
 
-        # Retrieve image data by name
         cursor.execute("SELECT image_data FROM images WHERE image_name = %s", (image_name,))
         image_data = cursor.fetchone()
 
         if image_data:
             image_bytes = image_data[0]
             image = Image.open(io.BytesIO(image_bytes))
-            image.show()  # This will open the image in the default image viewer
+            image.show()
         else:
             print(f"No image found with the name '{image_name}'.")
 
@@ -146,9 +148,38 @@ def display_image_from_database(image_name):
             connection.close()
 
 if __name__ == "__main__":
-    create_database()  # Step 1: Create the database
-    create_table()     # Step 2: Create the table in the 'ImageDB' database
-    choose_file_and_insert()  # Step 3: Choose a PNG file and insert it into the database
-    
-    # Example of how to retrieve and display an image from the database:
-    # display_image_from_database('your_image_name.png')
+    if len(sys.argv) < 2:
+        print("Usage: python script_name.py <command> [arguments]")
+        print("Commands:")
+        print("  create_database          - Create the ImageDB database")
+        print("  create_table             - Create the 'images' table")
+        print("  insert_image <filepath>  - Insert a PNG image from the specified file path")
+        print("  display_image <name>     - Display an image from the database by its name")
+    else:
+        command = sys.argv[1]
+
+        if command == "create_database":
+            create_database()
+
+        elif command == "create_table":
+            create_table()
+
+        elif command == "insert_image":
+            if len(sys.argv) < 3:
+                print("Usage: insert_image <filepath>")
+            else:
+                file_path = sys.argv[2]
+                if os.path.exists(file_path):
+                    insert_image(file_path)
+                else:
+                    print(f"Error: File not found at {file_path}")
+
+        elif command == "display_image":
+            if len(sys.argv) < 3:
+                print("Usage: display_image <name>")
+            else:
+                image_name = sys.argv[2]
+                display_image_from_database(image_name)
+
+        else:
+            print(f"Unknown command: {command}")
