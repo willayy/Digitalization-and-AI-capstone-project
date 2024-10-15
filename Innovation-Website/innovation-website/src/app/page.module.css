@@ -26,10 +26,11 @@
   width: 100%; /* Make sure the element takes the full width */
 }
 
-.homePage video {
-    display: block;
+.video {
+    display: flex;
     margin: 0 auto;
     align-items: center;
+    justify-content: center;
 
 }
 
