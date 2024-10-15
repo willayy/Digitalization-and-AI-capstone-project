@@ -32,7 +32,7 @@ export default function Home() {
             this, given enough sample data, would really work for any type of environment. Our goal is to create a very simple
             and straight forward graphical interface so that anyone could use the software regardless of skills in either photography
             or software development. Any images created will be stored in a database which can be accessed by clients IKEA wish
-            access to.
+            access to. Temp text.
           </p>
           <br />
 
