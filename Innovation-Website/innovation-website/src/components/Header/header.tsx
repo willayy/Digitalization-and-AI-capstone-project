@@ -29,6 +29,12 @@ export default function Header() {
             <Link href="/references" className={styles.navItem}>References</Link>
           </li>
           <li>
+            <Link href="/technicality" className={styles.navItem}>Technicality</Link>
+          </li>
+          <li>
+            <Link href="/study" className={styles.navItem}>Study</Link>
+          </li>
+          <li>
             <Link href="/about" className={styles.navItem}>About us</Link>
           </li>
         </ul>
