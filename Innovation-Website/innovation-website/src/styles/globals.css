@@ -1,0 +1,67 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+body {
+  background-image: url('../../public/wallpaper1.jpg');
+  background-size: cover;      /* Ensures the image covers the entire background */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat;/* Prevents the image from repeating */
+  background-attachment: fixed;/* Fixes the background in place */
+  margin: 0;                   /* Ensure there is no unwanted margin */
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image: url('../../public/wallpaper1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    --foreground: #ededed;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+.content {
+  margin-top: 5rem; 
+}
+
+@font-face {
+  font-family: 'Fredoka';
+  src: url('/Fredoka-VariableFont.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-family: "Fredoka", sans-serif;
+}
+
+.section {
+    width: 80%;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.75);
+}

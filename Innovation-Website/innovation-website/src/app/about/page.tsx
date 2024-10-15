@@ -1,8 +1,10 @@
 import styles from'./page.module.css';
+import '../../styles/globals.css';
 
 export default function About() {
   return (
-    <div className={styles.aboutPage}>
+    <div className="page">
+      <div className="section">
       <div>
         <h1>Who are we?</h1>
       </div>
@@ -50,6 +52,7 @@ export default function About() {
       <div className={styles.imagediv}>
         <img src="chalmers_logo.png" alt="Chalmers Logo" />
       </div>
+    </div>
     </div>
   );
 }

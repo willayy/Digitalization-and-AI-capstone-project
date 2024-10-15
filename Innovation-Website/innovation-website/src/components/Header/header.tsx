@@ -29,7 +29,7 @@ export default function Header() {
             <Link href="/references" className={styles.navItem}>References</Link>
           </li>
           <li>
-            <Link href="/technicality" className={styles.navItem}>Technicality</Link>
+            <Link href="/design" className={styles.navItem}>Design</Link>
           </li>
           <li>
             <Link href="/study" className={styles.navItem}>Study</Link>

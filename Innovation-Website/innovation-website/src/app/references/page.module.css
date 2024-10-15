@@ -5,20 +5,10 @@
     font-style: normal;
   }
 
-.body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 2rem;
-}
-
 .list {
     width: 50%;
 }
 
 .text {
-    font-family: "Fredoka", sans-serif;
-    color: black;
     padding: 1rem;
 }

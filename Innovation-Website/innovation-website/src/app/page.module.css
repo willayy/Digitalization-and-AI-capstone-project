@@ -10,10 +10,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url('../../public/wallpaper1.jpg'); /* Add your image path here */
-    background-size: cover; /* Ensures the image covers the entire background */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
     color: black;
     font-family: "Fredoka", sans-serif;
 }
