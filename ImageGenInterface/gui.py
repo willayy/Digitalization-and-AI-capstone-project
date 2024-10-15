@@ -33,7 +33,7 @@ def insert_image(image_obj, image_name, loading_window):
     # Close the loading window
     loading_window.destroy()
         
-def start_image_generation():
+def start_image_generation(prompt, object_path, mask_path, strength, guidance, inference, negative_prompt, mode):
     # Creating the loading window
     loading_window = tk.Toplevel(root)
     loading_window.title("Loading")
@@ -48,15 +48,11 @@ def start_image_generation():
     loading_label.pack(expand=True)
     
     # Parameters for the generate_image function
-    prompt = entry_var.get()
-    image = Image.open(file_path_var1.get())
+    image = Image.open(object_path)
     show_image = True
     n = len(os.listdir("ImageGenInterface/Trials")) + 1
     image_name = f"output-{n}.jpg"
     save_image_path = f"ImageGenInterface/Trials/{image_name}"
-    strength = 0.8
-    num_inf = 100
-    guidance = 15
 
     image = generate_image(
         prompt,
@@ -64,7 +60,7 @@ def start_image_generation():
         show_image,
         save_image_path,
         strength,
-        num_inf,
+        inference,
         guidance
     )
 
@@ -94,8 +90,8 @@ root.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
 root.resizable(False, False)
 
 # Create a StringVar to hold the file paths
-file_path_var1 = tk.StringVar()
-file_path_var2 = tk.StringVar()
+object_file_path = tk.StringVar()
+mask_file_path = tk.StringVar()
 
 # Create a StringVar to hold the prompt
 entry_var = tk.StringVar()
@@ -113,36 +109,25 @@ entry = tk.Entry(main_frame, textvariable=entry_var, width=40, font=("Helvetica"
 entry.grid(row=1, column=0, columnspan=2, pady=(10, 10), padx=12)
 
 # Create a frame to hold the button and label
-frame = tk.Frame(main_frame)
-frame.grid(row=2, column=0, columnspan=2, pady=(20, 10))
+def create_file_selector(frame, label_text, file_path_var, row):
+    file_frame = tk.Frame(frame)
+    file_frame.grid(row=row, column=0, columnspan=2, pady=(20, 10))
 
-# Create and place the label inside the frame with increased font size
-label = tk.Label(frame, text="Select an image of your item", font=("Helvetica", 20))
-label.pack(side=tk.LEFT, padx=10)
+    # Create and place the label inside the frame with increased font size
+    file_label = tk.Label(file_frame, text=label_text, font=("Helvetica", 20))
+    file_label.pack(side=tk.LEFT, padx=10)
 
-# Create and place the button inside the frame with increased font size
-button = tk.Button(frame, text="Browse", command=lambda: open_file_explorer(file_path_var1, filename_label1), font=("Helvetica", 20))
-button.pack(side=tk.LEFT)
+    # Create and place the button inside the frame with increased font size
+    file_button = tk.Button(file_frame, text="Browse", command=lambda: open_file_explorer(file_path_var, filename_label), font=("Helvetica", 20))
+    file_button.pack(side=tk.LEFT)
 
-# Create a label to display the filename to the right of the button
-filename_label1 = tk.Label(frame, text="", font=("Helvetica", 15))
-filename_label1.pack(side=tk.LEFT, padx=10)
+    # Create a label to display the filename to the right of the button
+    filename_label = tk.Label(file_frame, text="", font=("Helvetica", 15))
+    filename_label.pack(side=tk.LEFT, padx=10)
 
-# Create a new frame to hold the new label and button
-new_frame = tk.Frame(main_frame)
-new_frame.grid(row=5, column=0, columnspan=2, pady=(20, 10))
-
-# Create and place the new label inside the new frame
-new_label = tk.Label(new_frame, text="Select another image", font=("Helvetica", 20))
-new_label.pack(side=tk.LEFT, padx=10)
-
-# Create and place the new button inside the new frame
-new_button = tk.Button(new_frame, text="Browse", command=lambda: open_file_explorer(file_path_var2, filename_label2), font=("Helvetica", 20))
-new_button.pack(side=tk.LEFT)
-
-# Create a label to display the filename to the right of the button
-filename_label2 = tk.Label(new_frame, text="", font=("Helvetica", 15))
-filename_label2.pack(side=tk.LEFT, padx=10)
+# Create and place the file selectors
+create_file_selector(main_frame, "Select object image", object_file_path, 2)
+create_file_selector(main_frame, "Select object image mask", mask_file_path, 5)
 
 # Create a frame for the input field
 input_frame = tk.Frame(main_frame)
@@ -150,9 +135,9 @@ input_frame.grid(row=6, column=0, columnspan=2, pady=(10, 20))
 
 # Define the slider parameters with default values
 slider_params = [
-    ("Strength", 0, 1, 0.01, 0.8),  # Default value for Strength is 0.8
+    ("Strength", 0, 1, 0.01, 0.8),   # Default value for Strength is 0.8
     ("Guidance", 0, 20, 0.1, 7.5),   # Default value for Guidance is 7.5
-    ("Inference", 0, 500, 1, 50)   # Default value for Inference is 50
+    ("Inference", 0, 500, 1, 50)     # Default value for Inference is 50
 ]
 
 # Create and place the input fields inside the input frame
@@ -161,17 +146,25 @@ for i, (label_text, from_, to, resolution, default) in enumerate(slider_params):
     label = tk.Label(input_frame, text=label_text, font=("Helvetica", 14))
     label.grid(row=i, column=0, padx=10, pady=5, sticky="w")
     
-    # Create and place the slider with increased width and set default value
+    # Create and place the slider with increased width and set the default value
     slider = tk.Scale(input_frame, from_=from_, to=to, resolution=resolution, orient=tk.HORIZONTAL, font=("Helvetica", 14), length=350)
     slider.set(default)  # Set the default value
     slider.grid(row=i, column=1, padx=10, pady=5, sticky="e")
+
+    # Assign each slider to a specific variable for later access
+    if label_text == "Strength":
+        strength_slider = slider
+    elif label_text == "Guidance":
+        guidance_slider = slider
+    elif label_text == "Inference":
+        inference_slider = slider
 
     # Create and place the input field next to the slider
     input_field = tk.Entry(input_frame, width=5, font=("Helvetica", 14))
     input_field.insert(0, str(default))  # Set the default value in the input field
     input_field.grid(row=i, column=2, padx=10, pady=5, sticky="e")
 
-    # Function to update slider value when input field changes
+    # Function to update the slider value when the input field changes
     def update_slider(event, slider=slider, input_field=input_field):
         try:
             value = float(input_field.get())
@@ -184,7 +177,7 @@ for i, (label_text, from_, to, resolution, default) in enumerate(slider_params):
             input_field.delete(0, tk.END)
             input_field.insert(0, str(slider.get()))
 
-    # Function to update input field value when slider changes
+    # Function to update the input field value when the slider changes
     def update_input_field(value, input_field=input_field):
         input_field.delete(0, tk.END)
         input_field.insert(0, str(value))
@@ -194,8 +187,9 @@ for i, (label_text, from_, to, resolution, default) in enumerate(slider_params):
     # Bind the slider to the update function
     slider.config(command=update_input_field)
 
-label = tk.Label(input_frame, text="Negative Prompts", font=("Helvetica", 14))
-label.grid(row=3, column=0, padx=10, pady=5, sticky="w")
+
+negative_prompt_label = tk.Label(input_frame, text="Negative Prompts", font=("Helvetica", 14))
+negative_prompt_label.grid(row=3, column=0, padx=10, pady=5, sticky="w")
 
 negative_prompts = tk.Entry(input_frame, width=40, font=("Helvetica", 14))
 negative_prompts.grid(row=3, column=1, columnspan=2, padx=10, pady=5, sticky="e")
@@ -227,8 +221,24 @@ vanilla_checkbox.grid(row=1, column=1, padx=10, pady=5)
 action_frame = tk.Frame(main_frame)
 action_frame.grid(row=7, column=0, columnspan=2, pady=(10, 20)) 
 
-# Create and place the "Generate image" button inside the action frame
-generate_button = tk.Button(action_frame, text="Generate image", command=start_image_generation, font=("Helvetica", 20), bg="lightblue")
+def on_generate_button_click():
+    # Get values from the UI elements
+    prompt = entry_var.get()  # Prompt for the image
+    object_path = object_file_path.get()  # Object image file path
+    mask_path = mask_file_path.get()  # Mask file path
+    strength = strength_slider.get()  # Strength slider value
+    guidance = guidance_slider.get()  # Guidance slider value
+    inference = inference_slider.get()  # Inference slider value
+    negative_prompt = negative_prompts.get()  # Negative prompts text
+    mode = mode_var.get()  # Selected mode (performance or vanilla)
+
+    # Call the image generation function with the collected values
+    start_image_generation(
+        prompt, object_path, mask_path, strength, guidance, inference, negative_prompt, mode
+    )
+
+# Update the button to call the new function
+generate_button = tk.Button(action_frame, text="Generate image", command=on_generate_button_click, font=("Helvetica", 20), bg="lightblue")
 generate_button.pack()
 
 # Run the application
