@@ -33,37 +33,6 @@ try:
         ) -> None:
 
         MODEL_PATH: str = "./local_models/stable-diffusion-v1-5"
-        DEVICE: str = ""
-        CUDA = torch.cuda.is_available()
-        MPS = torch.backends.mps.is_available()
-
-        # Check if cuda is available
-        if CUDA:
-
-            print("CUDA is available")
-
-            DEVICE = "cuda"
-            
-        # Check if MPS is available
-        elif MPS:
-                
-            print("MPS is available")
-
-            DEVICE = "mps"
-
-            # Let MPS use all available memory, may cause system failure
-            os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
-
-        # If neither CUDA or MPS is available, run on CPU
-        else:
-
-            print("CUDA and MPS is unavailable, running CPU model.")
-
-            num_threads = os.cpu_count()
-
-            torch.set_num_threads(num_threads)  # Adjust based on your CPU
-
-            DEVICE = "cpu"
 
         # Run the model using a diffusers pipeline
         # We would like to use dTypr torch.float16 but it causes exceptions
@@ -71,9 +40,6 @@ try:
             MODEL_PATH if os.path.exists(MODEL_PATH) else "runwayml/stable-diffusion-v1-5",
             torch_dtype = torch.float32 
         )
-
-        # Disable this subdue warning
-        pipe.tokenizer.clean_up_tokenization_spaces = False
 
         # Save the model locally if it doesn't exist
         if not os.path.exists(MODEL_PATH): pipe.save_pretrained(MODEL_PATH)
