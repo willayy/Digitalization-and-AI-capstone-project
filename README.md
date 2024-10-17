@@ -13,4 +13,4 @@ python gui.py
 ```
 ## Usage
 * Write your desired prompt, choose an image from your computer, click generate.
-* The generation process will take some time (normally around / under 15 minutes but might take up to an hour depending on the hardware) and the window will be unresponsive while the image is being generated.
+* The generation process will take some time (normally around / under 15 minutes but might take up to an hour depending on the hardware) and the window might be unresponsive while the image is being generated.

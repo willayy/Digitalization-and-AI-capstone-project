@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import os
 from PIL import Image
-from genimage import generate_image
+from ImageGenInterface.Scripts.repainting_script import generate_image
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from ImageDB.database import insert_generated_image
