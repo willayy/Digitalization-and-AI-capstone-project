@@ -21,7 +21,7 @@
   }
   
   .footerTitle {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: bold;
     color: rgb(55, 55, 55);
     /*background-image: linear-gradient(to left, yellow, blue);
@@ -42,14 +42,12 @@
     list-style:none;
     margin: 0;
     padding: 30px;
-    display: flex;
     flex-direction: column;
-    gap: 20px;
   }
   
   .navItem {
     font-size: large;
-    font-weight: bold;
+    font-weight:400;
     color: black;
     padding: 0;
     border-radius: 5px; 
@@ -57,4 +55,25 @@
   
   .navItem:hover {
     background-color: rgb(206, 206, 206, 0.75);
+  
+  }
+
+  .footerh3 {
+    color: black;
+    text-decoration: underline;
+  }
+
+  .containerdiv {
+    display: flex;
+    margin-left: 5vw;
+    margin-bottom: 5vh;
+    flex-direction: row;
+    gap: 50px;
+  }
+
+  .smalldiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
   }
