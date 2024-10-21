@@ -5,11 +5,11 @@ export default function About() {
   return (
     <div className="page">
       <div className="section">
-      <div>
+      <div className='coursediv'>
         <h1>Who are we?</h1>
       </div>
 
-      <div>
+      <div className='coursediv'>
         <h2 className={styles.developersTitle}>Developers</h2>
       </div>
 
@@ -45,7 +45,7 @@ export default function About() {
         </div>
       </div>
 
-      <div>
+      <div className='coursediv'>
         <h2>TEK830 Digitalization and AI in practice</h2>
       </div>
 

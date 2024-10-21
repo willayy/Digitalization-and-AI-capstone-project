@@ -13,11 +13,7 @@ export default function Footer() {
   return (
     <footer className={styles.footerContainer}>
 
-      {showBackButton && (
-        <div>
-          <Link href="/" className={styles.navItem}>←</Link>
-        </div>
-      )}
+      
 
       <h1 className={styles.footerTitle}>
         <Link href="/">SKAPA</Link>
