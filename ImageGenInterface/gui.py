@@ -2,11 +2,11 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import os
 from PIL import Image
-from Scripts.inpainting_script import generate_image
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from ImageDB.database import insert_generated_image
 
+# Function to handle file selection
 def open_file_explorer(file_path_var, filename_label):
     file_path = filedialog.askopenfilename(
         filetypes=[("Image files", "*.jpg *.jpeg *.png")]
@@ -17,6 +17,7 @@ def open_file_explorer(file_path_var, filename_label):
         filename_label.config(text="Selected file: " + filename)
     else:
         messagebox.showwarning("File Selection", "No file selected or invalid file type.")
+        
 
 def insert_image(image_obj, image_name, loading_window):
     # Ask the user if they want to save the image in the database
@@ -37,6 +38,7 @@ def start_image_generation(prompt, object_path, mask_path, strength, guidance, i
     # Creating the loading window
     loading_window = tk.Toplevel(root)
     loading_window.title("Loading")
+    loading_window.configure(bg="#f0f0f0")
     
     # Centering the loading window on the screen
     center_x = int(screen_width / 2 - window_width / 2)
@@ -44,7 +46,7 @@ def start_image_generation(prompt, object_path, mask_path, strength, guidance, i
     loading_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
     
     # Adding a label to the loading window 
-    loading_label = tk.Label(loading_window, text="Generating image...", font=("Roboto", 14))
+    loading_label = tk.Label(loading_window, text="Generating image...", font=("Roboto", 14), bg="#f0f0f0")
     loading_label.pack(expand=True)
     
     # Parameters for the generate_image function
@@ -70,6 +72,14 @@ def start_image_generation(prompt, object_path, mask_path, strength, guidance, i
 # Create the main window
 root = tk.Tk()
 root.title("SKAPA")
+root.geometry("800x600")
+root.configure(bg="#f0f0f0")
+
+# Apply ttk styling
+style = ttk.Style()
+style.configure('TButton', font=('Roboto', 12), padding=6)
+style.configure('TLabel', font=('Roboto', 12))
+style.configure('TFrame', background="#f0f0f0")
 
 # Set the window size
 window_width = 1000 
@@ -97,43 +107,46 @@ mask_file_path = tk.StringVar()
 entry_var = tk.StringVar()
 
 # Create a frame to hold all widgets
-main_frame = tk.Frame(root)
+main_frame = ttk.Frame(root, padding=20)
 main_frame.pack(expand=True)
 
+# Prompt Section
 # Create and place the new label above the text field
-prompt_label = tk.Label(main_frame, text="Write a prompt for the image background", font=("Roboto", 20))
-prompt_label.grid(row=0, column=0, columnspan=2, pady=(20, 10))
+prompt_frame = ttk.Frame(main_frame, padding=10)
+prompt_frame.grid(row=0, column=0, sticky="ew", pady=10)
+
+# Create and place the new label above the text field
+prompt_label = ttk.Label(prompt_frame, text="Write a prompt for the image background")
+prompt_label.pack(anchor="n", pady=(0, 5))
 
 # Create and place the text field inside the main frame
-entry = tk.Entry(main_frame, textvariable=entry_var, width=40, font=("Roboto", 20))  # Decreased width
-entry.grid(row=1, column=0, columnspan=2, pady=(10, 10), padx=12)
+entry = ttk.Entry(prompt_frame, textvariable=entry_var, width=60)
+entry.pack(anchor="n")
 
-# Create a frame to hold the button and label
+# File selector function
 def create_file_selector(frame, label_text, file_path_var, row):
-    file_frame = tk.Frame(frame)
+    file_frame = ttk.Frame(frame)
     file_frame.grid(row=row, column=0, columnspan=2, pady=(20, 10))
 
-    # Create and place the label inside the frame with increased font size
-    file_label = tk.Label(file_frame, text=label_text, font=("Roboto", 20))
+    # Label and Browse button for the file selector
+    file_label = ttk.Label(file_frame, text=label_text)
     file_label.pack(side=tk.LEFT, padx=10)
 
-    # Create and place the button inside the frame with increased font size
-    file_button = tk.Button(file_frame, text="Browse", command=lambda: open_file_explorer(file_path_var, filename_label), font=("Roboto", 20))
+    file_button = ttk.Button(file_frame, text="Browse", command=lambda: open_file_explorer(file_path_var, filename_label))
     file_button.pack(side=tk.LEFT)
 
-    # Create a label to display the filename to the right of the button
-    filename_label = tk.Label(file_frame, text="", font=("Roboto", 15))
+    filename_label = ttk.Label(file_frame, text="")
     filename_label.pack(side=tk.LEFT, padx=10)
 
 # Create and place the file selectors
-create_file_selector(main_frame, "Select object image", object_file_path, 2)
-create_file_selector(main_frame, "Select object image mask", mask_file_path, 5)
+create_file_selector(main_frame, "Select object image", object_file_path, 1)
+create_file_selector(main_frame, "Select object image mask", mask_file_path, 2)
 
-# Create a frame for the input field
-input_frame = tk.Frame(main_frame)
-input_frame.grid(row=6, column=0, columnspan=2, pady=(10, 20))
+# Sliders and inputs
+input_frame = ttk.Frame(main_frame)
+input_frame.grid(row=3, column=0, pady=(10, 20))
 
-# Define the slider parameters with default values
+# Slider params
 slider_params = [
     ("Strength", 0, 1, 0.01, 0.8),   # Default value for Strength is 0.8
     ("Guidance", 0, 20, 0.1, 7.5),   # Default value for Guidance is 7.5
@@ -143,11 +156,11 @@ slider_params = [
 # Create and place the input fields inside the input frame
 for i, (label_text, from_, to, resolution, default) in enumerate(slider_params):
     # Create and place the label
-    label = tk.Label(input_frame, text=label_text, font=("Roboto", 14))
+    label = ttk.Label(input_frame, text=label_text)
     label.grid(row=i, column=0, padx=10, pady=5, sticky="w")
     
     # Create and place the slider with increased width and set the default value
-    slider = tk.Scale(input_frame, from_=from_, to=to, resolution=resolution, orient=tk.HORIZONTAL, font=("Roboto", 14), length=350)
+    slider = ttk.Scale(input_frame, from_=from_, to=to, orient=tk.HORIZONTAL)
     slider.set(default)  # Set the default value
     slider.grid(row=i, column=1, padx=10, pady=5, sticky="e")
 
@@ -188,38 +201,34 @@ for i, (label_text, from_, to, resolution, default) in enumerate(slider_params):
     slider.config(command=update_input_field)
 
 
-negative_prompt_label = tk.Label(input_frame, text="Negative Prompts", font=("Roboto", 14))
-negative_prompt_label.grid(row=3, column=0, padx=10, pady=5, sticky="w")
+negative_prompt_label = ttk.Label(input_frame, text="Negative Prompts")
+negative_prompt_label.grid(row=len(slider_params), column=0, padx=10, pady=5, sticky="w")
 
-negative_prompts = tk.Entry(input_frame, width=40, font=("Roboto", 14))
-negative_prompts.grid(row=3, column=1, columnspan=2, padx=10, pady=5, sticky="e")
+negative_prompts = ttk.Entry(input_frame)
+negative_prompts.grid(row=len(slider_params), column=1, padx=10, pady=5)
 
 # Create a frame for the checkboxes
-checkbox_frame = tk.Frame(input_frame)
+checkbox_frame = ttk.Frame(main_frame)
 checkbox_frame.grid(row=4, column=0, columnspan=3, pady=(10, 20))
 
 # Create a StringVar to hold the selected mode
 mode_var = tk.StringVar(value="performance")
 
 # Create and place the label above the checkboxes
-mode_label = tk.Label(checkbox_frame, text="Select Mode", font=("Roboto", 14))
+mode_label = ttk.Label(checkbox_frame, text="Select Mode")
 mode_label.grid(row=0, column=0, columnspan=2, pady=(0, 10))
 
 # Create and place the "Performance mode" checkbox
-performance_checkbox = tk.Radiobutton(
-    checkbox_frame, text="Performance mode", variable=mode_var, value="performance", font=("Roboto", 14)
-)
+performance_checkbox = ttk.Radiobutton(checkbox_frame, text="Performance mode", variable=mode_var, value="performance")
 performance_checkbox.grid(row=1, column=0, padx=10, pady=5)
 
 # Create and place the "Vanilla mode" checkbox
-vanilla_checkbox = tk.Radiobutton(
-    checkbox_frame, text="Vanilla mode", variable=mode_var, value="vanilla", font=("Roboto", 14)
-)
+vanilla_checkbox = ttk.Radiobutton(checkbox_frame, text="Vanilla mode", variable=mode_var, value="vanilla")
 vanilla_checkbox.grid(row=1, column=1, padx=10, pady=5)
 
-# Create a frame for the action button
-action_frame = tk.Frame(main_frame)
-action_frame.grid(row=7, column=0, columnspan=2, pady=(10, 20)) 
+# Action button
+action_frame = ttk.Frame(main_frame)
+action_frame.grid(row=5, column=0, columnspan=2, pady=(10, 20)) 
 
 def on_generate_button_click():
     # Get values from the UI elements
@@ -238,7 +247,7 @@ def on_generate_button_click():
     )
 
 # Update the button to call the new function
-generate_button = tk.Button(action_frame, text="Generate image", command=on_generate_button_click, font=("Roboto", 20), bg="lightblue")
+generate_button = ttk.Button(action_frame, text="Generate image", command=on_generate_button_click)
 generate_button.pack()
 
 # Run the application
