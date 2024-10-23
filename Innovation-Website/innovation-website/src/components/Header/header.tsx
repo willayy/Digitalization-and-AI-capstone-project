@@ -4,15 +4,22 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './header.module.css';
 
-export default function Header() {
+const navItems = [
+  { name: 'References', path: '/references' },
+  { name: 'Design', path: '/design' },
+  { name: 'Study', path: '/study' },
+  { name: 'About us', path: '/about' }
+];
 
+export default function Header() {
   const pathname = usePathname();
-  const pathsWithBackButton = ['/references', '/about'];
+
+  // Dynamically create the list of paths that should show the back button
+  const pathsWithBackButton = navItems.map(item => item.path);
   const showBackButton = pathsWithBackButton.includes(pathname);
 
   return (
     <header className={styles.headerContainer}>
-
       {showBackButton && (
         <div>
           <Link href="/" className={styles.navItem}>←</Link>
@@ -25,18 +32,13 @@ export default function Header() {
 
       <nav className={styles.nav}>
         <ul style={{ display: 'flex', gap: 0 }}>
-          <li>
-            <Link href="/references" className={styles.navItem}>References</Link>
-          </li>
-          <li>
-            <Link href="/design" className={styles.navItem}>Design</Link>
-          </li>
-          <li>
-            <Link href="/study" className={styles.navItem}>Study</Link>
-          </li>
-          <li>
-            <Link href="/about" className={styles.navItem}>About us</Link>
-          </li>
+          {navItems.map((item, index) => (
+            <li key={index}>
+              <Link href={item.path} className={styles.navItem}>
+                {item.name}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>
