@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import os
-from PIL import Image
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from ImageDB.database import insert_generated_image
@@ -34,41 +33,6 @@ def insert_image(image_obj, image_name, loading_window):
     # Close the loading window
     loading_window.destroy()
         
-def start_image_generation(prompt, object_path, mask_path, strength, guidance, inference, negative_prompt, mode):
-    # Creating the loading window
-    loading_window = tk.Toplevel(root)
-    loading_window.title("Loading")
-    loading_window.configure(bg="#f0f0f0")
-    
-    # Centering the loading window on the screen
-    center_x = int(screen_width / 2 - window_width / 2)
-    center_y = int(screen_height / 2 - window_height / 2)
-    loading_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
-    
-    # Adding a label to the loading window 
-    loading_label = tk.Label(loading_window, text="Generating image...", font=("Roboto", 14), bg="#f0f0f0")
-    loading_label.pack(expand=True)
-    
-    # Parameters for the generate_image function
-    image = Image.open(object_path)
-    show_image = True
-    n = len(os.listdir("ImageGenInterface/Trials")) + 1
-    image_name = f"output-{n}.jpg"
-    save_image_path = f"ImageGenInterface/Trials/{image_name}"
-
-    image = generate_image(
-        prompt,
-        image,
-        show_image,
-        save_image_path,
-        strength,
-        inference,
-        guidance
-    )
-
-    # Insert the image into the database
-    insert_image(image, f"output-{n}.jpg", loading_window)
-
 # Create the main window
 root = tk.Tk()
 root.title("SKAPA")
@@ -133,13 +97,13 @@ def create_file_selector(frame, label_text, file_path_var, row):
     file_frame.grid(row=row, column=0, columnspan=2, pady=(20, 10))
 
     # Label and Browse button for the file selector
-    file_label = ttk.Label(file_frame, text=label_text)
+    file_label = ttk.Label(file_frame, text=label_text, style="TLabel")
     file_label.pack(side=tk.LEFT, padx=10)
 
     file_button = ttk.Button(file_frame, text="Browse", command=lambda: open_file_explorer(file_path_var, filename_label))
     file_button.pack(side=tk.LEFT)
 
-    filename_label = ttk.Label(file_frame, text="")
+    filename_label = ttk.Label(file_frame, text="", style="TLabel")
     filename_label.pack(side=tk.LEFT, padx=10)
 
 # Create and place the file selectors
@@ -160,7 +124,7 @@ slider_params = [
 # Create and place the input fields inside the input frame
 for i, (label_text, from_, to, step, default) in enumerate(slider_params):
     # Create and place the label
-    label = ttk.Label(input_frame, text=label_text)
+    label = ttk.Label(input_frame, text=label_text, style="TLabel")
     label.grid(row=i, column=0, padx=10, pady=5, sticky="w")
     
     # Create and place the slider with increased width and set the default value
@@ -209,7 +173,7 @@ for i, (label_text, from_, to, step, default) in enumerate(slider_params):
     slider.config(command=update_input_field)
 
 
-negative_prompt_label = ttk.Label(input_frame, text="Negative Prompts")
+negative_prompt_label = ttk.Label(input_frame, text="Negative Prompts", style="TLabel")
 negative_prompt_label.grid(row=len(slider_params), column=0, padx=10, pady=5, sticky="w")
 
 negative_prompts = ttk.Entry(input_frame)
