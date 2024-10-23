@@ -4,12 +4,11 @@ export default function Design() {
   return (
     <div className="page">
         <div className="section">
-          <h1>Design</h1>
-          <p>This is the design page.</p>
+          <h1 className='designtitle'>Design</h1>
 
-          <h2> Usability </h2>
+          <h2 className='designh2'> Usability </h2>
           <br />
-          <p>
+          <p className='designtext'>
             The idea of SKAPA is to create a tool capable of generating environmental and lifestyle images based on
             an input image or 3D-model. We want to accomplish this as it enables IKEA an ability to adapt their images 
             based on the market which they are meant to be used towards. The main goal of SKAPA is to produce these images 
@@ -21,9 +20,9 @@ export default function Design() {
           </p>
           <br />
 
-          <h2> Feasibility </h2>
+          <h2 className='designh2'> Feasibility </h2>
           <br />
-          <p>
+          <p className='designtext'>
             While our AI model in the current state, and most likely later state for the final delivery, is not able to compete with
             other image generators on the market, we still want to give IKEA an idea of what is feasible, especially considering they
             have additional resources. And like we said before, we believe a model like this could extend beyond our current set of 
@@ -34,9 +33,9 @@ export default function Design() {
           </p>
           <br />
 
-          <h2> Viability </h2>
+          <h2 className='designh2'> Viability </h2>
           <br />
-          <p>
+          <p className='designtext'>
             Based on IKEAs key values and goals we want to tailor SKAPA to be as simple as possible and grant use of the powerful 
             technology we have today. We want to highlight that a tool which is capable of generating images and eliminating the needs 
             of hiring set designers, photographers and the like will likely have a negative impact on job availability among those whose 
@@ -44,6 +43,25 @@ export default function Design() {
             prices in their goal to be affordable to anyone.
           </p>
           <br />
+        
+          <h1 className='designAItitle'>About the AI</h1>
+          <br/>
+          <p className='designtext' style={{marginBottom: '150px'}}>
+            In our project generative AI is a cornerstone of our work. Our product is a tool for using generative AI and making it more easy to use for people who are 
+            not programmers. We are using a stable diffusion model as our AI model. The main focus in our product is not actually the AI model as it can be replaced 
+            by a better model quite easily but rather the user interface and the system of storing generated images to a library for others to use. 
+            <br/>
+            <br/>
+            Our product consists of a graphical user interface that allows users with no programming knowledge to use generative AI to generate product images that are 
+            stored in a database 
+            for future use and create an image bank of product images for other users to access. The AI in our product is a very swappable part and can be considered the 
+            engine in a car, it is very possible to swap the engine in a car and keep using the same car.
+            <br/>
+            <br/>
+            The way our use of AI is implemented is by taking an image of an 
+            Ikea product and then taking a so called “masking image” that tells the AI model what it is allowed to change in the image, after that the image is generated 
+            using a technology known as diffusion. This results in an image where the product remains intact but the background is changed. 
+          </p>   
 
         </div>
       </div>
