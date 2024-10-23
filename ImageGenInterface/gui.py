@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+from tkinter import filedialog, messagebox, ttk, font
 import os
 import sys
 import subprocess
@@ -39,14 +39,23 @@ root.title("SKAPA")
 root.geometry("800x600")
 root.configure(bg="#f0f0f0")
 
+roboto_15 = font.Font(family="Roboto", size=15)
+roboto_20 = font.Font(family="Roboto", size=20)
+roboto_20_bold = font.Font(family="Roboto", size=20, weight="bold")
+
 # Apply ttk styling with larger font sizes
 style = ttk.Style()
-style.configure('TButton', font=('Roboto', 20), padding=10)
-style.configure('TLabel', font=('Roboto', 20))
+style.configure('TButton', font=roboto_20, padding=10)
+
+style.configure('TLabel', font=roboto_20)
+style.configure('Bold.TLabel', font=roboto_20_bold)
+
 style.configure('TFrame', background="#f0f0f0")
-style.configure('TEntry', font=('Roboto', 20))
-style.configure('TScale', sliderlength=30, length=300)
-style.configure('TRadiobutton', font=('Roboto', 15))
+
+style.configure('TEntry', font=roboto_20)
+style.configure('Small.TEntry', font=roboto_15)
+
+style.configure('TRadiobutton', font=roboto_15)
 
 
 # Set the window size
@@ -84,11 +93,11 @@ prompt_frame = ttk.Frame(main_frame, padding=10)
 prompt_frame.grid(row=0, column=0, sticky="ew", pady=10)
 
 # Create and place the new label above the text field
-prompt_label = ttk.Label(prompt_frame, text="Write a prompt for the image background")
+prompt_label = ttk.Label(prompt_frame, text="Write a prompt for the image background", style="Bold.TLabel")
 prompt_label.pack(anchor="n", pady=(0, 5))
 
 # Create and place the text field inside the main frame
-entry = ttk.Entry(prompt_frame, textvariable=entry_var, width=60, style="TEntry")
+entry = ttk.Entry(prompt_frame, textvariable=entry_var, width=60, font=roboto_20)
 entry.pack(anchor="n")
 
 # File selector function
@@ -100,15 +109,16 @@ def create_file_selector(frame, label_text, file_path_var, row):
     file_label = ttk.Label(file_frame, text=label_text, style="TLabel")
     file_label.pack(side=tk.LEFT, padx=10)
 
-    file_button = ttk.Button(file_frame, text="Browse", command=lambda: open_file_explorer(file_path_var, filename_label))
+    file_button = ttk.Button(file_frame, text="Browse",
+                              command=lambda: open_file_explorer(file_path_var, filename_label), style="TButton")
     file_button.pack(side=tk.LEFT)
 
-    filename_label = ttk.Label(file_frame, text="", style="TLabel")
+    filename_label = ttk.Label(file_frame, text="", font=roboto_15)
     filename_label.pack(side=tk.LEFT, padx=10)
 
 # Create and place the file selectors
 create_file_selector(main_frame, "Select object image", object_file_path, 1)
-create_file_selector(main_frame, "Select object image mask", mask_file_path, 2)
+create_file_selector(main_frame, "Select object image mask", mask_file_path, 2) 
 
 # Sliders and inputs
 input_frame = ttk.Frame(main_frame)
@@ -116,9 +126,9 @@ input_frame.grid(row=3, column=0, pady=(10, 20))
 
 # Slider params
 slider_params = [
-    ("Strength", 0, 1, 0.01, 0.8),   # Default value for Strength is 0.8
-    ("Guidance", 0, 20, 0.1, 7.5),   # Default value for Guidance is 7.5
-    ("Inference", 0, 500, 1, 50)     # Default value for Inference is 50
+    ("Strength:", 0, 1, 0.01, 0.8),   # Default value for Strength is 0.8
+    ("Guidance:", 0, 20, 0.1, 7.5),   # Default value for Guidance is 7.5
+    ("Inference:", 0, 500, 1, 50)     # Default value for Inference is 50
 ]
 
 # Create and place the input fields inside the input frame
@@ -133,15 +143,15 @@ for i, (label_text, from_, to, step, default) in enumerate(slider_params):
     slider.grid(row=i, column=1, padx=10, pady=5, sticky="e")
 
     # Assign each slider to a specific variable for later access
-    if label_text == "Strength":
+    if label_text == "Strength:":
         strength_slider = slider
-    elif label_text == "Guidance":
+    elif label_text == "Guidance:":
         guidance_slider = slider
-    elif label_text == "Inference":
+    elif label_text == "Inference:":
         inference_slider = slider
 
     # Create and place the input field next to the slider
-    input_field = ttk.Entry(input_frame)
+    input_field = ttk.Entry(input_frame, width=5, font=roboto_15, style="Small.TEntry")
     input_field.insert(0, str(default))  # Set the default value in the input field
     input_field.grid(row=i, column=2, padx=10, pady=5, sticky="e")
 
@@ -176,8 +186,20 @@ for i, (label_text, from_, to, step, default) in enumerate(slider_params):
 negative_prompt_label = ttk.Label(input_frame, text="Negative Prompts", style="TLabel")
 negative_prompt_label.grid(row=len(slider_params), column=0, padx=10, pady=5, sticky="w")
 
-negative_prompts = ttk.Entry(input_frame)
+negative_prompts = ttk.Entry(input_frame, width=50, font=roboto_15, style="Small.TEntry")
 negative_prompts.grid(row=len(slider_params), column=1, padx=10, pady=5)
+
+# Function to adjust slider lengths dynamically
+def adjust_slider_lengths():
+    # Get the width of the negative_prompts widget
+    negative_prompt_width = negative_prompts.winfo_width()
+    # Set the length of all sliders to match the width of the negative_prompts field
+    strength_slider.config(length=negative_prompt_width)
+    guidance_slider.config(length=negative_prompt_width)
+    inference_slider.config(length=negative_prompt_width)
+
+# Call the function after the window has been fully rendered
+root.after(10, adjust_slider_lengths)
 
 # Create a frame for the checkboxes
 checkbox_frame = ttk.Frame(main_frame)
@@ -187,20 +209,25 @@ checkbox_frame.grid(row=4, column=0, columnspan=3, pady=(10, 20))
 mode_var = tk.StringVar(value="performance")
 
 # Create and place the label above the checkboxes
-mode_label = ttk.Label(checkbox_frame, text="Select Mode")
+mode_label = ttk.Label(checkbox_frame, text="Select Mode", style="Bold.TLabel")
 mode_label.grid(row=0, column=0, columnspan=2, pady=(0, 10))
 
 # Create and place the "Performance mode" checkbox
-performance_checkbox = ttk.Radiobutton(checkbox_frame, text="Performance mode", variable=mode_var, value="performance")
+performance_checkbox = ttk.Radiobutton(checkbox_frame, text="Performance mode",
+                                        variable=mode_var, value="performance", style="TRadiobutton")
 performance_checkbox.grid(row=1, column=0, padx=10, pady=5)
 
 # Create and place the "Vanilla mode" checkbox
-vanilla_checkbox = ttk.Radiobutton(checkbox_frame, text="Vanilla mode", variable=mode_var, value="vanilla")
+vanilla_checkbox = ttk.Radiobutton(checkbox_frame, text="Vanilla mode", 
+                                   variable=mode_var, value="vanilla", style="TRadiobutton")
 vanilla_checkbox.grid(row=1, column=1, padx=10, pady=5)
 
-# Action button
-action_frame = ttk.Frame(main_frame)
-action_frame.grid(row=5, column=0, columnspan=2, pady=(10, 20)) 
+def reset_choises():
+    strength_slider.set(0.8)
+    guidance_slider.set(7.5)
+    inference_slider.set(50)
+    negative_prompts.delete(0, tk.END)
+    mode_var.set("performance")
 
 def on_generate_button_click():
     
@@ -248,9 +275,17 @@ scripts_dir = os.path.join(current_dir, '..', 'Scripts')  # Relative path to the
 
 # Path to the inpainting script
 inpainting_script_path = os.path.join(scripts_dir, 'inpainting_script.py')
+
+# Action button
+action_frame = ttk.Frame(main_frame)
+action_frame.grid(row=5, column=0, columnspan=2, pady=(10, 20)) 
+
 # Update the button to call the new function
-generate_button = ttk.Button(action_frame, text="Generate image", command=on_generate_button_click)
-generate_button.pack()
+generate_button = ttk.Button(action_frame, text="Generate image", command=on_generate_button_click, style="TButton")
+generate_button.pack(side=tk.LEFT, padx=10)
+
+to_default_button = ttk.Button(action_frame, text="Reset to Default", command=reset_choises, style="TButton")
+to_default_button.pack(side=tk.LEFT, padx=10)
 
 # Run the application
 root.mainloop()
