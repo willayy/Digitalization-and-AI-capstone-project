@@ -6,6 +6,7 @@ import sys
 import subprocess
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from ImageDB.database import insert_generated_image
+import time
 
 def open_file_explorer(file_path_var, filename_label):
     file_path = filedialog.askopenfilename(
@@ -18,7 +19,7 @@ def open_file_explorer(file_path_var, filename_label):
     else:
         messagebox.showwarning("File Selection", "No file selected or invalid file type.")
 
-def insert_image(image_obj, image_name, loading_window):
+def insert_image(image_obj, image_name):
     # Ask the user if they want to save the image in the database
     save_to_db = messagebox.askyesno("Insert Image", "Do you want to save the generated image to the database?")
     
@@ -30,42 +31,7 @@ def insert_image(image_obj, image_name, loading_window):
     else:
         messagebox.showinfo("Image Not Saved", "The image was not saved to the database.")
 
-    # Close the loading window
-    loading_window.destroy()
-        
-def start_image_generation(prompt, object_path, mask_path, strength, guidance, inference, negative_prompt, mode):
-    # Creating the loading window
-    loading_window = tk.Toplevel(root)
-    loading_window.title("Loading")
-    
-    # Centering the loading window on the screen
-    center_x = int(screen_width / 2 - window_width / 2)
-    center_y = int(screen_height / 2 - window_height / 2)
-    loading_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
-    
-    # Adding a label to the loading window 
-    loading_label = tk.Label(loading_window, text="Generating image...", font=("Helvetica", 14))
-    loading_label.pack(expand=True)
-    
-    # Parameters for the generate_image function
-    image = Image.open(object_path)
-    show_image = True
-    n = len(os.listdir("ImageGenInterface/Trials")) + 1
-    image_name = f"output-{n}.jpg"
-    save_image_path = f"ImageGenInterface/Trials/{image_name}"
-
-    image = generate_image(
-        prompt,
-        image,
-        show_image,
-        save_image_path,
-        strength,
-        inference,
-        guidance
-    )
-
-    # Insert the image into the database
-    insert_image(image, f"output-{n}.jpg", loading_window)
+   
 
 # Create the main window
 root = tk.Tk()
@@ -222,6 +188,7 @@ action_frame = tk.Frame(main_frame)
 action_frame.grid(row=7, column=0, columnspan=2, pady=(10, 20)) 
 
 def on_generate_button_click():
+    
     # Get values from the UI elements
     prompt = entry_var.get()
     object_path = object_file_path.get()
@@ -232,23 +199,11 @@ def on_generate_button_click():
     negative_prompt = negative_prompts.get()
     mode = mode_var.get()
 
-    # Create a loading window to indicate progress
-    loading_window = tk.Toplevel(root)
-    loading_window.title("Loading")
     
-    # Center the loading window
-    center_x = int(screen_width / 2 - window_width / 2)
-    center_y = int(screen_height / 2 - window_height / 2)
-    loading_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
-    
-    # Add a label to the loading window
-    loading_label = tk.Label(loading_window, text="Generating image...", font=("Helvetica", 14))
-    loading_label.pack(expand=True)
-
     try:
         # Call the external script with subprocess, passing the parameters as arguments
         result = subprocess.run(
-            [sys.executable, r'Scripts\inpainting_script.py',
+            [sys.executable, inpainting_script_path,
              '--init_image', object_path,
              '--mask_image', mask_path,
              '--prompt', prompt,
@@ -272,10 +227,12 @@ def on_generate_button_click():
         # Handle errors and display an error message
         messagebox.showerror("Error", f"Failed to generate image:\n{e.stderr}")
 
-    finally:
-        # Close the loading window after processing
-        loading_window.destroy()
+# Dynamically set the path to the Scripts folder
+current_dir = os.path.dirname(os.path.abspath(__file__))  # Directory where gui.py is located
+scripts_dir = os.path.join(current_dir, '..', 'Scripts')  # Relative path to the Scripts folder
 
+# Path to the inpainting script
+inpainting_script_path = os.path.join(scripts_dir, 'inpainting_script.py')
 # Update the button to call the new function
 generate_button = tk.Button(action_frame, text="Generate image", command=on_generate_button_click, font=("Helvetica", 20), bg="lightblue")
 generate_button.pack()
