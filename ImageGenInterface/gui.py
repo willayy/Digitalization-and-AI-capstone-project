@@ -248,10 +248,11 @@ def on_generate_button_click():
     try:
         # Call the external script with subprocess, passing the parameters as arguments
         result = subprocess.run(
-            [sys.executable, r'C:\Users\jomar\OneDrive\Desktop\Capstone Ikea\Digitalization-and-AI-capstone-project\Scripts\inpainting_script.py',
+            [sys.executable, r'Scripts\inpainting_script.py',
              '--init_image', object_path,
              '--mask_image', mask_path,
              '--prompt', prompt,
+             '-show',
              '--n_prompt', negative_prompt,
              '--strength', str(strength),
              '--num_inf', str(inference),
@@ -261,14 +262,11 @@ def on_generate_button_click():
             text=True,
             check=True
         )
-
+        
         # Show a success message with the result
         messagebox.showinfo("Success", f"Image generated successfully:\n{result.stdout}")
 
-        # You can now insert the image into the database after generation if needed
-        n = len(os.listdir("ImageGenInterface/Trials")) + 1
-        image_name = f"output-{n}.jpg"
-        insert_image(image_name, loading_window)
+        
 
     except subprocess.CalledProcessError as e:
         # Handle errors and display an error message
