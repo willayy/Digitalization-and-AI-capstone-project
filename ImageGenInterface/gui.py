@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import os
 from PIL import Image
-from ImageGenInterface.Scripts.repainting_script import generate_image
+from Scripts.inpainting_script import generate_image
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from ImageDB.database import insert_generated_image
@@ -44,7 +44,7 @@ def start_image_generation(prompt, object_path, mask_path, strength, guidance, i
     loading_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
     
     # Adding a label to the loading window 
-    loading_label = tk.Label(loading_window, text="Generating image...", font=("Helvetica", 14))
+    loading_label = tk.Label(loading_window, text="Generating image...", font=("Roboto", 14))
     loading_label.pack(expand=True)
     
     # Parameters for the generate_image function
@@ -101,11 +101,11 @@ main_frame = tk.Frame(root)
 main_frame.pack(expand=True)
 
 # Create and place the new label above the text field
-prompt_label = tk.Label(main_frame, text="Write a prompt for the image background", font=("Helvetica", 20))
+prompt_label = tk.Label(main_frame, text="Write a prompt for the image background", font=("Roboto", 20))
 prompt_label.grid(row=0, column=0, columnspan=2, pady=(20, 10))
 
 # Create and place the text field inside the main frame
-entry = tk.Entry(main_frame, textvariable=entry_var, width=40, font=("Helvetica", 20))  # Decreased width
+entry = tk.Entry(main_frame, textvariable=entry_var, width=40, font=("Roboto", 20))  # Decreased width
 entry.grid(row=1, column=0, columnspan=2, pady=(10, 10), padx=12)
 
 # Create a frame to hold the button and label
@@ -114,15 +114,15 @@ def create_file_selector(frame, label_text, file_path_var, row):
     file_frame.grid(row=row, column=0, columnspan=2, pady=(20, 10))
 
     # Create and place the label inside the frame with increased font size
-    file_label = tk.Label(file_frame, text=label_text, font=("Helvetica", 20))
+    file_label = tk.Label(file_frame, text=label_text, font=("Roboto", 20))
     file_label.pack(side=tk.LEFT, padx=10)
 
     # Create and place the button inside the frame with increased font size
-    file_button = tk.Button(file_frame, text="Browse", command=lambda: open_file_explorer(file_path_var, filename_label), font=("Helvetica", 20))
+    file_button = tk.Button(file_frame, text="Browse", command=lambda: open_file_explorer(file_path_var, filename_label), font=("Roboto", 20))
     file_button.pack(side=tk.LEFT)
 
     # Create a label to display the filename to the right of the button
-    filename_label = tk.Label(file_frame, text="", font=("Helvetica", 15))
+    filename_label = tk.Label(file_frame, text="", font=("Roboto", 15))
     filename_label.pack(side=tk.LEFT, padx=10)
 
 # Create and place the file selectors
@@ -143,11 +143,11 @@ slider_params = [
 # Create and place the input fields inside the input frame
 for i, (label_text, from_, to, resolution, default) in enumerate(slider_params):
     # Create and place the label
-    label = tk.Label(input_frame, text=label_text, font=("Helvetica", 14))
+    label = tk.Label(input_frame, text=label_text, font=("Roboto", 14))
     label.grid(row=i, column=0, padx=10, pady=5, sticky="w")
     
     # Create and place the slider with increased width and set the default value
-    slider = tk.Scale(input_frame, from_=from_, to=to, resolution=resolution, orient=tk.HORIZONTAL, font=("Helvetica", 14), length=350)
+    slider = tk.Scale(input_frame, from_=from_, to=to, resolution=resolution, orient=tk.HORIZONTAL, font=("Roboto", 14), length=350)
     slider.set(default)  # Set the default value
     slider.grid(row=i, column=1, padx=10, pady=5, sticky="e")
 
@@ -160,7 +160,7 @@ for i, (label_text, from_, to, resolution, default) in enumerate(slider_params):
         inference_slider = slider
 
     # Create and place the input field next to the slider
-    input_field = tk.Entry(input_frame, width=5, font=("Helvetica", 14))
+    input_field = tk.Entry(input_frame, width=5, font=("Roboto", 14))
     input_field.insert(0, str(default))  # Set the default value in the input field
     input_field.grid(row=i, column=2, padx=10, pady=5, sticky="e")
 
@@ -188,10 +188,10 @@ for i, (label_text, from_, to, resolution, default) in enumerate(slider_params):
     slider.config(command=update_input_field)
 
 
-negative_prompt_label = tk.Label(input_frame, text="Negative Prompts", font=("Helvetica", 14))
+negative_prompt_label = tk.Label(input_frame, text="Negative Prompts", font=("Roboto", 14))
 negative_prompt_label.grid(row=3, column=0, padx=10, pady=5, sticky="w")
 
-negative_prompts = tk.Entry(input_frame, width=40, font=("Helvetica", 14))
+negative_prompts = tk.Entry(input_frame, width=40, font=("Roboto", 14))
 negative_prompts.grid(row=3, column=1, columnspan=2, padx=10, pady=5, sticky="e")
 
 # Create a frame for the checkboxes
@@ -202,18 +202,18 @@ checkbox_frame.grid(row=4, column=0, columnspan=3, pady=(10, 20))
 mode_var = tk.StringVar(value="performance")
 
 # Create and place the label above the checkboxes
-mode_label = tk.Label(checkbox_frame, text="Select Mode", font=("Helvetica", 14))
+mode_label = tk.Label(checkbox_frame, text="Select Mode", font=("Roboto", 14))
 mode_label.grid(row=0, column=0, columnspan=2, pady=(0, 10))
 
 # Create and place the "Performance mode" checkbox
 performance_checkbox = tk.Radiobutton(
-    checkbox_frame, text="Performance mode", variable=mode_var, value="performance", font=("Helvetica", 14)
+    checkbox_frame, text="Performance mode", variable=mode_var, value="performance", font=("Roboto", 14)
 )
 performance_checkbox.grid(row=1, column=0, padx=10, pady=5)
 
 # Create and place the "Vanilla mode" checkbox
 vanilla_checkbox = tk.Radiobutton(
-    checkbox_frame, text="Vanilla mode", variable=mode_var, value="vanilla", font=("Helvetica", 14)
+    checkbox_frame, text="Vanilla mode", variable=mode_var, value="vanilla", font=("Roboto", 14)
 )
 vanilla_checkbox.grid(row=1, column=1, padx=10, pady=5)
 
@@ -238,7 +238,7 @@ def on_generate_button_click():
     )
 
 # Update the button to call the new function
-generate_button = tk.Button(action_frame, text="Generate image", command=on_generate_button_click, font=("Helvetica", 20), bg="lightblue")
+generate_button = tk.Button(action_frame, text="Generate image", command=on_generate_button_click, font=("Roboto", 20), bg="lightblue")
 generate_button.pack()
 
 # Run the application
