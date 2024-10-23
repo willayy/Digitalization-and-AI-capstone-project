@@ -13,7 +13,7 @@
     margin-bottom: 0px; 
     position: relative;
     height: 12rem;
-    position: relative; /* Make the footer stick to the top */
+    position: relative; /* Make the footer stick to the bottom */
     bottom: 0; /* Position it at the bottom of the viewport */
     width: 100%; /* Ensure it stretches across the full width */
     z-index: 1000; /* Ensure it appears above other content */

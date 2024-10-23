@@ -16,6 +16,9 @@ export default function Home() {
           <VideoPlayer videoSrc="VSieaMqd-iY" h2Ref={specificH2Ref} />
 
           <iframe src="Second_Pitch_Team12.pdf" width="600" height="400"></iframe>
+
+          <VideoPlayer videoSrc="VSieaMqd-iY" h2Ref={specificH2Ref} />
+          
         </div>
       </div>
 
