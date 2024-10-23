@@ -65,3 +65,17 @@ a {
     height: 100vh;
     background-color: rgba(255, 255, 255, 0.75);
 }
+
+.section img {
+    max-width: 100%; /* Makes the image responsive */
+    height: auto; /* Maintains aspect ratio */
+    width: auto;
+    max-height: 300px;
+    margin-top: 20px; /* Optional margin for spacing */
+}
+
+.coursediv {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
