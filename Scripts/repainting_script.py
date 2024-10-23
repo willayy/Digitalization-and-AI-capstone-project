@@ -178,4 +178,4 @@ if SAVE_PATH: image.save(SAVE_PATH)
 
 sys.exit(0)
 
-# EXAMPLE USE: python repainting_script.py -show --init_image Scripts/Trials/original-image-small-noisy.jpg --prompt "Place this table in an european livingroom, the table should stand on the floor" --num_inf 200 --strength 0.85 --guidance 10
+# EXAMPLE USE: python repainting_script.py -show --init_image Trials/original-image-small-noisy.jpg --prompt "Place this table in an european livingroom, the table should stand on the floor" --num_inf 200 --strength 0.85 --guidance 10

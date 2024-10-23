@@ -190,4 +190,4 @@ if SAVE_PATH: image.save(SAVE_PATH)
 
 sys.exit(0)
 
-#EXAMPLE USE: python3 inpainting_script.py -show --init_image Trials/original-image-small.jpg --mask_image Trials/original-image-small-mask.jpg --prompt "Place this table in an european livingroom, the tables leg should be on the floor" --n_prompt "Tables with objects under them"
+#EXAMPLE USE: python inpainting_script.py -show --init_image Trials/original-image-small.jpg --mask_image Trials/original-image-small-mask.jpg --prompt "Place this table in an european livingroom, the tables leg should be on the floor" --n_prompt "Tables with objects under them"
