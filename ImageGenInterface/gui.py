@@ -75,11 +75,15 @@ root.title("SKAPA")
 root.geometry("800x600")
 root.configure(bg="#f0f0f0")
 
-# Apply ttk styling
+# Apply ttk styling with larger font sizes
 style = ttk.Style()
-style.configure('TButton', font=('Roboto', 12), padding=6)
-style.configure('TLabel', font=('Roboto', 12))
+style.configure('TButton', font=('Roboto', 20), padding=10)
+style.configure('TLabel', font=('Roboto', 20))
 style.configure('TFrame', background="#f0f0f0")
+style.configure('TEntry', font=('Roboto', 20))
+style.configure('TScale', sliderlength=30, length=300)
+style.configure('TRadiobutton', font=('Roboto', 15))
+
 
 # Set the window size
 window_width = 1000 
@@ -120,7 +124,7 @@ prompt_label = ttk.Label(prompt_frame, text="Write a prompt for the image backgr
 prompt_label.pack(anchor="n", pady=(0, 5))
 
 # Create and place the text field inside the main frame
-entry = ttk.Entry(prompt_frame, textvariable=entry_var, width=60)
+entry = ttk.Entry(prompt_frame, textvariable=entry_var, width=60, style="TEntry")
 entry.pack(anchor="n")
 
 # File selector function
@@ -154,7 +158,7 @@ slider_params = [
 ]
 
 # Create and place the input fields inside the input frame
-for i, (label_text, from_, to, resolution, default) in enumerate(slider_params):
+for i, (label_text, from_, to, step, default) in enumerate(slider_params):
     # Create and place the label
     label = ttk.Label(input_frame, text=label_text)
     label.grid(row=i, column=0, padx=10, pady=5, sticky="w")
@@ -173,16 +177,18 @@ for i, (label_text, from_, to, resolution, default) in enumerate(slider_params):
         inference_slider = slider
 
     # Create and place the input field next to the slider
-    input_field = tk.Entry(input_frame, width=5, font=("Roboto", 14))
+    input_field = ttk.Entry(input_frame)
     input_field.insert(0, str(default))  # Set the default value in the input field
     input_field.grid(row=i, column=2, padx=10, pady=5, sticky="e")
 
     # Function to update the slider value when the input field changes
-    def update_slider(event, slider=slider, input_field=input_field):
+    def update_slider(event, slider=slider, input_field=input_field, step=step, from_=from_, to=to):
         try:
             value = float(input_field.get())
-            if from_ <= value <= to:
-                slider.set(value)
+            # Round to the nearest step
+            rounded_value = round(round(float(value) / step) * step, 2)
+            if from_ <= rounded_value <= to:
+                slider.set(rounded_value)
             else:
                 input_field.delete(0, tk.END)
                 input_field.insert(0, str(slider.get()))
@@ -191,9 +197,11 @@ for i, (label_text, from_, to, resolution, default) in enumerate(slider_params):
             input_field.insert(0, str(slider.get()))
 
     # Function to update the input field value when the slider changes
-    def update_input_field(value, input_field=input_field):
+    def update_input_field(value, input_field=input_field, step=step):
+        # Round the value to the nearest step
+        rounded_value = round(round(float(value) / step) * step, 2)
         input_field.delete(0, tk.END)
-        input_field.insert(0, str(value))
+        input_field.insert(0, str(rounded_value))
 
     # Bind the input field to the update function
     input_field.bind("<Return>", update_slider)
