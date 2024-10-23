@@ -14,8 +14,11 @@ export default function Home() {
         <div className={styles.video}>
           
           <VideoPlayer videoSrc="VSieaMqd-iY" h2Ref={specificH2Ref} />
+
+          <iframe src="Second_Pitch_Team12.pdf" width="600" height="400"></iframe>
         </div>
       </div>
+
 
       <div className={styles.section}>
         <h2 className={styles.designTitle} ref={specificH2Ref}>The design behind</h2>

@@ -13,13 +13,9 @@ export default function Footer() {
   return (
     <footer className={styles.footerContainer}>
 
-      
-
       <h1 className={styles.footerTitle}>
         <Link href="/">SKAPA</Link>
       </h1>
-
-      
 
       <div className={styles.containerdiv}>
         <div className={styles.smalldiv}>
