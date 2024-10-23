@@ -170,7 +170,6 @@ image: Image_obj = pipeline(
     strength=STRENGTH,
     num_inference_steps=NUM_INF,
     guidance_scale=GUIDANCE
-
 ).images[0]
 
 if SHOW: image.show()
@@ -179,5 +178,4 @@ if SAVE_PATH: image.save(SAVE_PATH)
 
 sys.exit(0)
 
-# EXAMPLE USE:
-# python3 repainting_script.py -show --init_image Trials/original-image-small.jpg --prompt "Place this table in an european livingroom, the tables leg should be on the floor" --n_prompt "Changing table shape, changing table color"
+# EXAMPLE USE: python repainting_script.py -show --init_image Scripts/Trials/original-image-small-noisy.jpg --prompt "Place this table in an european livingroom, the table should stand on the floor" --num_inf 200 --strength 0.85 --guidance 10

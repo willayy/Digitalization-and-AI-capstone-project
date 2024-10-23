@@ -70,6 +70,13 @@ def init_arg_parser() -> ArgumentParser:
     )
 
     parser.add_argument(
+        "--save_path",
+        type=str,
+        required=False,
+        help="(Optional) The path to save the image to."
+    )
+
+    parser.add_argument(
         "--init_image",
         type=str,
         required=True,
@@ -142,6 +149,7 @@ PROMPT: str = args.prompt
 SHOW: bool = args.show
 STRENGTH: float = args.strength
 VANILLA: bool = not args.p
+SAVE_PATH: str = args.save_path
 
 # Get device
 DEVICE: str = hardware_accelerate_if_available()
@@ -177,6 +185,8 @@ image: Image_obj = pipeline(
 ).images[0]
 
 if SHOW: image.show()
+
+if SAVE_PATH: image.save(SAVE_PATH)
 
 sys.exit(0)
 
