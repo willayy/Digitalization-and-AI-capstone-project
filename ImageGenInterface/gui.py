@@ -2,8 +2,8 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import os
 from PIL import Image
-from ImageGenInterface.Scripts.repainting_script import generate_image
 import sys
+import subprocess
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from ImageDB.database import insert_generated_image
 
@@ -223,19 +223,60 @@ action_frame.grid(row=7, column=0, columnspan=2, pady=(10, 20))
 
 def on_generate_button_click():
     # Get values from the UI elements
-    prompt = entry_var.get()  # Prompt for the image
-    object_path = object_file_path.get()  # Object image file path
-    mask_path = mask_file_path.get()  # Mask file path
-    strength = strength_slider.get()  # Strength slider value
-    guidance = guidance_slider.get()  # Guidance slider value
-    inference = inference_slider.get()  # Inference slider value
-    negative_prompt = negative_prompts.get()  # Negative prompts text
-    mode = mode_var.get()  # Selected mode (performance or vanilla)
+    prompt = entry_var.get()
+    object_path = object_file_path.get()
+    mask_path = mask_file_path.get()
+    strength = strength_slider.get()
+    guidance = guidance_slider.get()
+    inference = inference_slider.get()
+    negative_prompt = negative_prompts.get()
+    mode = mode_var.get()
 
-    # Call the image generation function with the collected values
-    start_image_generation(
-        prompt, object_path, mask_path, strength, guidance, inference, negative_prompt, mode
-    )
+    # Create a loading window to indicate progress
+    loading_window = tk.Toplevel(root)
+    loading_window.title("Loading")
+    
+    # Center the loading window
+    center_x = int(screen_width / 2 - window_width / 2)
+    center_y = int(screen_height / 2 - window_height / 2)
+    loading_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+    
+    # Add a label to the loading window
+    loading_label = tk.Label(loading_window, text="Generating image...", font=("Helvetica", 14))
+    loading_label.pack(expand=True)
+
+    try:
+        # Call the external script with subprocess, passing the parameters as arguments
+        result = subprocess.run(
+            [sys.executable, r'C:\Users\jomar\OneDrive\Desktop\Capstone Ikea\Digitalization-and-AI-capstone-project\Scripts\inpainting_script.py',
+             '--init_image', object_path,
+             '--mask_image', mask_path,
+             '--prompt', prompt,
+             '--n_prompt', negative_prompt,
+             '--strength', str(strength),
+             '--num_inf', str(inference),
+             '--guidance', str(guidance),
+             ] + (['-p'] if mode == 'performance' else []),
+            capture_output=True,
+            text=True,
+            check=True
+        )
+
+        # Show a success message with the result
+        messagebox.showinfo("Success", f"Image generated successfully:\n{result.stdout}")
+
+        # You can now insert the image into the database after generation if needed
+        n = len(os.listdir("ImageGenInterface/Trials")) + 1
+        image_name = f"output-{n}.jpg"
+        insert_image(image_name, loading_window)
+
+    except subprocess.CalledProcessError as e:
+        # Handle errors and display an error message
+        messagebox.showerror("Error", f"Failed to generate image:\n{e.stderr}")
+
+    finally:
+        # Close the loading window after processing
+        loading_window.destroy()
 
 # Update the button to call the new function
 generate_button = tk.Button(action_frame, text="Generate image", command=on_generate_button_click, font=("Helvetica", 20), bg="lightblue")
