@@ -2,8 +2,10 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import os
 import sys
+import subprocess
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from ImageDB.database import insert_generated_image
+import time
 
 # Function to handle file selection
 def open_file_explorer(file_path_var, filename_label):
@@ -16,9 +18,8 @@ def open_file_explorer(file_path_var, filename_label):
         filename_label.config(text="Selected file: " + filename)
     else:
         messagebox.showwarning("File Selection", "No file selected or invalid file type.")
-        
 
-def insert_image(image_obj, image_name, loading_window):
+def insert_image(image_obj, image_name):
     # Ask the user if they want to save the image in the database
     save_to_db = messagebox.askyesno("Insert Image", "Do you want to save the generated image to the database?")
     
@@ -30,9 +31,8 @@ def insert_image(image_obj, image_name, loading_window):
     else:
         messagebox.showinfo("Image Not Saved", "The image was not saved to the database.")
 
-    # Close the loading window
-    loading_window.destroy()
-        
+   
+
 # Create the main window
 root = tk.Tk()
 root.title("SKAPA")
@@ -203,21 +203,51 @@ action_frame = ttk.Frame(main_frame)
 action_frame.grid(row=5, column=0, columnspan=2, pady=(10, 20)) 
 
 def on_generate_button_click():
+    
     # Get values from the UI elements
-    prompt = entry_var.get()  # Prompt for the image
-    object_path = object_file_path.get()  # Object image file path
-    mask_path = mask_file_path.get()  # Mask file path
-    strength = strength_slider.get()  # Strength slider value
-    guidance = guidance_slider.get()  # Guidance slider value
-    inference = inference_slider.get()  # Inference slider value
-    negative_prompt = negative_prompts.get()  # Negative prompts text
-    mode = mode_var.get()  # Selected mode (performance or vanilla)
+    prompt = entry_var.get()
+    object_path = object_file_path.get()
+    mask_path = mask_file_path.get()
+    strength = strength_slider.get()
+    guidance = guidance_slider.get()
+    inference = inference_slider.get()
+    negative_prompt = negative_prompts.get()
+    mode = mode_var.get()
 
-    # Call the image generation function with the collected values
-    start_image_generation(
-        prompt, object_path, mask_path, strength, guidance, inference, negative_prompt, mode
-    )
+    
+    try:
+        # Call the external script with subprocess, passing the parameters as arguments
+        result = subprocess.run(
+            [sys.executable, inpainting_script_path,
+             '--init_image', object_path,
+             '--mask_image', mask_path,
+             '--prompt', prompt,
+             '-show',
+             '--n_prompt', negative_prompt,
+             '--strength', str(strength),
+             '--num_inf', str(inference),
+             '--guidance', str(guidance),
+             ] + (['-p'] if mode == 'performance' else []),
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        
+        # Show a success message with the result
+        messagebox.showinfo("Success", f"Image generated successfully:\n{result.stdout}")
 
+        
+
+    except subprocess.CalledProcessError as e:
+        # Handle errors and display an error message
+        messagebox.showerror("Error", f"Failed to generate image:\n{e.stderr}")
+
+# Dynamically set the path to the Scripts folder
+current_dir = os.path.dirname(os.path.abspath(__file__))  # Directory where gui.py is located
+scripts_dir = os.path.join(current_dir, '..', 'Scripts')  # Relative path to the Scripts folder
+
+# Path to the inpainting script
+inpainting_script_path = os.path.join(scripts_dir, 'inpainting_script.py')
 # Update the button to call the new function
 generate_button = ttk.Button(action_frame, text="Generate image", command=on_generate_button_click)
 generate_button.pack()
