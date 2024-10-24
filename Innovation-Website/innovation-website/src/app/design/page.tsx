@@ -39,9 +39,8 @@ export default function Design() {
               prices in their goal to be affordable to anyone.
             </p>
 
-            <h1 className='designAItitle'>About the AI</h1>
-          <br/>
-          <p className='designtext' style={{marginBottom: '150px'}}>
+            <h2> About the AI </h2>
+            <p className="paragraph">
             In our project generative AI is a cornerstone of our work. Our product is a tool for using generative AI and making it more easy to use for people who are 
             not programmers. We are using a stable diffusion model as our AI model. The main focus in our product is not actually the AI model as it can be replaced 
             by a better model quite easily but rather the user interface and the system of storing generated images to a library for others to use. 
