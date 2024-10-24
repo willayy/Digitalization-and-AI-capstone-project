@@ -24,12 +24,12 @@
 
 .video {
     display: flex;
-    margin: 0 auto;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 20px;
-
+    margin-top: 30px;
+    margin-bottom: 120px;
 }
 
 .designTitle {
@@ -53,9 +53,11 @@
 }
 
 .section {
-  width: 80%;
-  /*height: 100vh;*/
-  background-color: rgba(211, 211, 211, 0.8);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;  
 }
 
 .header {
@@ -69,3 +71,9 @@
   margin-right: 200px;
 }
 
+.vcon {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;  
+}

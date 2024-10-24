@@ -1,5 +1,4 @@
 import '../../styles/globals.css';
-import '../../styles/subpage.css'
  
 export default function Design() {
   return (

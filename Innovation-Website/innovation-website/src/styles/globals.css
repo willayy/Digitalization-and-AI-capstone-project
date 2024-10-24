@@ -80,27 +80,30 @@ a {
   margin-top: 20px;
 }
 
-.designtext {
-  margin-left: 300px;
-  margin-right: 300px;
-  margin-bottom: 30px;
+.title {
+  font-size: 50px;
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 
-.designh2 {
+.center {
   display: flex;
+  flex-direction: column;  /* Stack children vertically */
   justify-content: center;
+  align-items: center;
+  width: 80%;
+  background-color: rgba(211, 211, 211, 0.8);
 }
 
-.designtitle {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 50px;
-  margin-top: 20px;
+.paragraph {
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-bottom: 5%;
+  font-size: 30px;
 }
 
-.designAItitle {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-  margin-top: 50px;
+h2 {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
