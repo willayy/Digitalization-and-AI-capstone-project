@@ -92,29 +92,29 @@ main_frame.pack(expand=True)
 prompt_frame = ttk.Frame(main_frame, padding=10)
 prompt_frame.grid(row=0, column=0, sticky="ew", pady=10)
 
-# Create and place the new label above the text field
-prompt_label = ttk.Label(prompt_frame, text="Write a prompt for the image background", style="Bold.TLabel")
-prompt_label.pack(anchor="n", pady=(0, 5))
+# Prompt Section
+prompt_label = ttk.Label(prompt_frame, text="Prompt for the image background", style="Bold.TLabel")
+prompt_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-# Create and place the text field inside the main frame
-entry = ttk.Entry(prompt_frame, textvariable=entry_var, width=60, font=roboto_20)
-entry.pack(anchor="n")
+entry = ttk.Entry(prompt_frame, textvariable=entry_var, width=40, font=roboto_15)
+entry.grid(row=0, column=1, padx=10, pady=10)
+
 
 # File selector function
 def create_file_selector(frame, label_text, file_path_var, row):
     file_frame = ttk.Frame(frame)
-    file_frame.grid(row=row, column=0, columnspan=2, pady=(20, 10))
+    file_frame.grid(row=row, column=0, sticky="ew", pady=(5, 15))
 
     # Label and Browse button for the file selector
     file_label = ttk.Label(file_frame, text=label_text, style="TLabel")
-    file_label.pack(side=tk.LEFT, padx=10)
+    file_label.grid(row=0, column=0, padx=10, sticky="w")
 
     file_button = ttk.Button(file_frame, text="Browse",
                               command=lambda: open_file_explorer(file_path_var, filename_label), style="TButton")
-    file_button.pack(side=tk.LEFT)
+    file_button.grid(row=0, column=1, padx=5, sticky="e")
 
     filename_label = ttk.Label(file_frame, text="", font=roboto_15)
-    filename_label.pack(side=tk.LEFT, padx=10)
+    filename_label.grid(row=0, column=2, padx=10, sticky="w")
 
 # Create and place the file selectors
 create_file_selector(main_frame, "Select object image", object_file_path, 1)
@@ -122,7 +122,7 @@ create_file_selector(main_frame, "Select object image mask", mask_file_path, 2)
 
 # Sliders and inputs
 input_frame = ttk.Frame(main_frame)
-input_frame.grid(row=3, column=0, pady=(10, 20))
+input_frame.grid(row=3, column=0, pady=(15, 25), sticky="ew")
 
 # Slider params
 slider_params = [
@@ -139,8 +139,8 @@ for i, (label_text, from_, to, step, default) in enumerate(slider_params):
     
     # Create and place the slider with increased width and set the default value
     slider = ttk.Scale(input_frame, from_=from_, to=to, orient=tk.HORIZONTAL)
-    slider.set(default)  # Set the default value
-    slider.grid(row=i, column=1, padx=10, pady=5, sticky="e")
+    slider.set(default)
+    slider.grid(row=i, column=1, padx=10, pady=5, sticky="ew")
 
     # Assign each slider to a specific variable for later access
     if label_text == "Strength:":
@@ -187,7 +187,7 @@ negative_prompt_label = ttk.Label(input_frame, text="Negative Prompts", style="T
 negative_prompt_label.grid(row=len(slider_params), column=0, padx=10, pady=5, sticky="w")
 
 negative_prompts = ttk.Entry(input_frame, width=50, font=roboto_15, style="Small.TEntry")
-negative_prompts.grid(row=len(slider_params), column=1, padx=10, pady=5)
+negative_prompts.grid(row=len(slider_params), column=1, padx=10, pady=5, columnspan=2, sticky="ew")
 
 # Function to adjust slider lengths dynamically
 def adjust_slider_lengths():
@@ -203,7 +203,7 @@ root.after(10, adjust_slider_lengths)
 
 # Create a frame for the checkboxes
 checkbox_frame = ttk.Frame(main_frame)
-checkbox_frame.grid(row=4, column=0, columnspan=3, pady=(10, 20))
+checkbox_frame.grid(row=4, column=0, pady=(10, 20), sticky="ew")
 
 # Create a StringVar to hold the selected mode
 mode_var = tk.StringVar(value="performance")
@@ -278,14 +278,14 @@ inpainting_script_path = os.path.join(scripts_dir, 'inpainting_script.py')
 
 # Action button
 action_frame = ttk.Frame(main_frame)
-action_frame.grid(row=5, column=0, columnspan=2, pady=(10, 20)) 
+action_frame.grid(row=5, column=0, pady=(15, 20), sticky="ew")
 
 # Update the button to call the new function
 generate_button = ttk.Button(action_frame, text="Generate image", command=on_generate_button_click, style="TButton")
-generate_button.pack(side=tk.LEFT, padx=10)
+generate_button.pack(side=tk.LEFT, padx=20)
 
 to_default_button = ttk.Button(action_frame, text="Reset to Default", command=reset_choises, style="TButton")
-to_default_button.pack(side=tk.LEFT, padx=10)
+to_default_button.pack(side=tk.LEFT, padx=20)
 
 # Run the application
 root.mainloop()
