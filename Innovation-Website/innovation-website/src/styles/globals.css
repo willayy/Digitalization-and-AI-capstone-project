@@ -62,7 +62,7 @@ a {
 
 .section {
     width: 80%;
-    height: 100vh;
+    /*height: 100vh;*/
     background-color: rgba(255, 255, 255, 0.75);
 }
 
@@ -78,4 +78,29 @@ a {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+}
+
+.designtext {
+  margin-left: 300px;
+  margin-right: 300px;
+  margin-bottom: 30px;
+}
+
+.designh2 {
+  display: flex;
+  justify-content: center;
+}
+
+.designtitle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  margin-top: 20px;
+}
+
+.designAItitle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  margin-top: 50px;
 }

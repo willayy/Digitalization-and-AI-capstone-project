@@ -1,4 +1,3 @@
-import styles from'./page.module.css';
 import '../../styles/globals.css';
 import '../../styles/subpage.css'
  
@@ -39,6 +38,25 @@ export default function Design() {
               expertise lies within any of these fields. In the end, an image generator would enable cut costs which might aid in reducing 
               prices in their goal to be affordable to anyone.
             </p>
+
+            <h1 className='designAItitle'>About the AI</h1>
+          <br/>
+          <p className='designtext' style={{marginBottom: '150px'}}>
+            In our project generative AI is a cornerstone of our work. Our product is a tool for using generative AI and making it more easy to use for people who are 
+            not programmers. We are using a stable diffusion model as our AI model. The main focus in our product is not actually the AI model as it can be replaced 
+            by a better model quite easily but rather the user interface and the system of storing generated images to a library for others to use. 
+            <br/>
+            <br/>
+            Our product consists of a graphical user interface that allows users with no programming knowledge to use generative AI to generate product images that are 
+            stored in a database 
+            for future use and create an image bank of product images for other users to access. The AI in our product is a very swappable part and can be considered the 
+            engine in a car, it is very possible to swap the engine in a car and keep using the same car.
+            <br/>
+            <br/>
+            The way our use of AI is implemented is by taking an image of an 
+            Ikea product and then taking a so called “masking image” that tells the AI model what it is allowed to change in the image, after that the image is generated 
+            using a technology known as diffusion. This results in an image where the product remains intact but the background is changed. 
+          </p> 
             
         </div>
       </div>
