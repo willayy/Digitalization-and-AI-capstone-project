@@ -184,6 +184,9 @@ for i, (label_text, from_, to, step, default) in enumerate(slider_params):
     # Bind the slider to the update function
     slider.config(command=update_input_field)
 
+    # if label_text == "Inference:":
+    #     strength_input = input_field
+
 
 negative_prompt_label = ttk.Label(input_frame, text="Negative Prompts", style="TLabel")
 negative_prompt_label.grid(row=len(slider_params), column=0, padx=10, pady=5, sticky="w")
@@ -239,7 +242,7 @@ def on_generate_button_click():
     mask_path = mask_file_path.get()
     strength = strength_slider.get()
     guidance = guidance_slider.get()
-    inference = inference_slider.get()
+    inference = int(inference_slider.get())
     negative_prompt = negative_prompts.get()
     mode = mode_var.get()
 
