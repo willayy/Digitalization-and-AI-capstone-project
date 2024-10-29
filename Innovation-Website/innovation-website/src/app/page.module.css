@@ -77,3 +77,11 @@
   flex-direction: column;
   align-items: center;  
 }
+
+.viddiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 50px;
+}

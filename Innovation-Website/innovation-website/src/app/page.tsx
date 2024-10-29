@@ -13,7 +13,7 @@ export default function Home() {
         <div className={styles.section}>
           <h2>Welcome to the future of marketing!</h2>
           <div className={styles.video}>
-            <VideoPlayer videoSrc="VSieaMqd-iY" h2Ref={specificH2Ref} />
+            <VideoPlayer videoSrc="BTCI5hC2jnQ" h2Ref={specificH2Ref} />
           </div>
         </div>
 
@@ -24,10 +24,12 @@ export default function Home() {
           of resources needed to create images for new products. Continue writing
         </p>
         </div>  
+        
+        <div className={styles.viddiv}>
+          <iframe src="Third Pitch_Team12.pdf" width="600" height="400" ></iframe>
 
-        <iframe src="Second_Pitch_Team12.pdf" width="600" height="400"></iframe>
-
-        <VideoPlayer videoSrc="VSieaMqd-iY" h2Ref={specificH2Ref} />
+          <VideoPlayer videoSrc="VSieaMqd-iY" h2Ref={specificH2Ref}/>
+        </div>
 
       </div>
     </div>
