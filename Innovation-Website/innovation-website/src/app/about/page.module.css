@@ -59,11 +59,12 @@
 
 
 .imagediv {
-    margin-top: 50px;
+    margin-top: 20px;
+    margin-bottom: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 100%;
+    max-width: 30%;
     overflow: hidden;
 }
 
@@ -84,4 +85,10 @@
 
 .developersTitle {
     margin-top: -30px;
+}
+
+.responsiveImage {
+    width: 100%; /* Make image responsive */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* or contain */
 }

@@ -5,9 +5,9 @@ import { usePathname } from 'next/navigation';
 import styles from './header.module.css';
 
 const navItems = [
-  { name: 'References', path: '/references' },
   { name: 'Design', path: '/design' },
   { name: 'Study', path: '/study' },
+  { name: 'References', path: '/references' },
   { name: 'About us', path: '/about' }
 ];
 

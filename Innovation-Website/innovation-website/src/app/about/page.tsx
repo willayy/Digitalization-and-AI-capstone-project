@@ -4,7 +4,7 @@ import '../../styles/globals.css';
 export default function About() {
   return (
     <div className="page">
-      <div className="section">
+      <div className="center">
       <div className='coursediv'>
         <h1>Who are we?</h1>
       </div>
@@ -50,7 +50,7 @@ export default function About() {
       </div>
 
       <div className={styles.imagediv}>
-        <img src="chalmers_logo.png" alt="Chalmers Logo" />
+        <img src="chalmers_logo.png" alt="Chalmers Logo" className={styles.responsiveImage} />
       </div>
     </div>
     </div>
