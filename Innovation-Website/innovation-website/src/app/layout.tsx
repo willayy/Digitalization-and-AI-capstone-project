@@ -20,6 +20,7 @@ export default function RootLayout({
       <body>
         <Header /> {/* Render the Header */}
         <main className="content">{children}</main> {/* Render the main content of the page */}
+        <Analytics/>
         <Footer />
       </body>
     </html>

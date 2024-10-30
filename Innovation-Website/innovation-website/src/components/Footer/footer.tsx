@@ -1,14 +1,11 @@
 "use client";
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import styles from './footer.module.css';
 
 export default function Footer() {
 
-  const pathname = usePathname();
-  const pathsWithBackButton = ['/references', '/about'];
-  const showBackButton = pathsWithBackButton.includes(pathname);
+
 
   return (
     <footer className={styles.footerContainer}>
