@@ -1,13 +1,15 @@
 import styles from'./page.module.css';
+import '../../styles/globals.css';
 
 export default function About() {
   return (
-    <div className={styles.aboutPage}>
-      <div>
+    <div className="page">
+      <div className="center">
+      <div className='coursediv'>
         <h1>Who are we?</h1>
       </div>
 
-      <div>
+      <div className='coursediv'>
         <h2 className={styles.developersTitle}>Developers</h2>
       </div>
 
@@ -43,13 +45,14 @@ export default function About() {
         </div>
       </div>
 
-      <div>
+      <div className='coursediv'>
         <h2>TEK830 Digitalization and AI in practice</h2>
       </div>
 
       <div className={styles.imagediv}>
-        <img src="chalmers_logo.png" alt="Chalmers Logo" />
+        <img src="chalmers_logo.png" alt="Chalmers Logo" className={styles.responsiveImage} />
       </div>
+    </div>
     </div>
   );
 }

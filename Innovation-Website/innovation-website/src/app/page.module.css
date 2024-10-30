@@ -10,7 +10,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: white;
     color: black;
     font-family: "Fredoka", sans-serif;
 }
@@ -23,11 +22,14 @@
   width: 100%; /* Make sure the element takes the full width */
 }
 
-.homePage video {
-    display: block;
-    margin: 0 auto;
+.video {
+    display: flex;
     align-items: center;
-
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 120px;
 }
 
 .designTitle {
@@ -52,10 +54,15 @@
 
 .section {
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;  
 }
 
 .header {
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
@@ -64,3 +71,17 @@
   margin-right: 200px;
 }
 
+.vcon {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;  
+}
+
+.viddiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 50px;
+}

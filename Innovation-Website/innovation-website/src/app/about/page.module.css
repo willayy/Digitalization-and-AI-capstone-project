@@ -37,7 +37,7 @@
     flex-wrap: wrap; /* Allow items to wrap to the next line */
     justify-content: space-around; /* Evenly distribute items along the main axis */
     justify-content: center;
-    margin-top: -20px;
+    margin-top: -30px;
 
 }
 
@@ -56,18 +56,24 @@
 
 }
 
-.aboutPage img {
-    max-width: 100%; /* Makes the image responsive */
-    height: auto; /* Maintains aspect ratio */
-    width: 200px;
-    margin-top: 20px; /* Optional margin for spacing */
-}
+
 
 .imagediv {
-    margin-top: 50px;
+    margin-top: 20px;
+    margin-bottom: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    max-width: 30%;
+    overflow: hidden;
+}
+
+.aboutPage img {
+    max-width: 80%; /* Makes the image responsive */
+    /*height: auto; /* Maintains aspect ratio */
+    /*width: auto;*/
+    max-height: 150px;
+    margin-top: 20px; /* Optional margin for spacing */
 }
 
 .aboutPage p {
@@ -75,4 +81,14 @@
     justify-content: center;
     display: flex;
 
+}
+
+.developersTitle {
+    margin-top: -30px;
+}
+
+.responsiveImage {
+    width: 100%; /* Make image responsive */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* or contain */
 }

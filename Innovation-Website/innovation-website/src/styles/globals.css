@@ -1,0 +1,109 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+body {
+  background-image: url('../../public/wallpaper1.jpg');
+  background-size: cover;      /* Ensures the image covers the entire background */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat;/* Prevents the image from repeating */
+  background-attachment: fixed;/* Fixes the background in place */
+  margin: 0;                   /* Ensure there is no unwanted margin */
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image: url('../../public/wallpaper1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    --foreground: #ededed;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+.content {
+  margin-top: 5rem; 
+}
+
+@font-face {
+  font-family: 'Fredoka';
+  src: url('/Fredoka-VariableFont.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-family: "Fredoka", sans-serif;
+}
+
+.section {
+    width: 80%;
+    /*height: 100vh;*/
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+.section img {
+    max-width: 100%; /* Makes the image responsive */
+    height: auto; /* Maintains aspect ratio */
+    width: auto;
+    max-height: 300px;
+    margin-top: 20px; /* Optional margin for spacing */
+}
+
+.coursediv {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.title {
+  font-size: 50px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;  /* Stack children vertically */
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  background-color: rgba(211, 211, 211, 0.9);
+}
+
+.paragraph {
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-bottom: 5%;
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
