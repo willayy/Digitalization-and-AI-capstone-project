@@ -2,6 +2,7 @@ import '../styles/globals.css'; // Import your global styles
 import type { Metadata } from 'next'; // Import Metadata type
 import Header from '../components/Header/header'; // Import the Header component
 import Footer from '../components/Footer/footer';
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
   title: 'SKAPA',
